@@ -1,0 +1,7 @@
+version: "Apple Swift version 5.3.2 (swiftlang-1200.0.45 clang-1200.0.32.28)"
+options: "c5aa9c46e8e689959ce7ffd69ca7521d"
+build_time: [1630473324, 443262000]
+inputs:
+  "/Users/smeyakboy/react-native/Train/M1/LinkShare/node_modules/lottie-react-native/src/ios/LottieReactNative/AnimationViewManagerModule.swift": [499162500, 0]
+  "/Users/smeyakboy/react-native/Train/M1/LinkShare/node_modules/lottie-react-native/src/ios/LottieReactNative/ContainerView.swift": [499162500, 0]
+  "/Users/smeyakboy/react-native/Train/M1/LinkShare/node_modules/lottie-react-native/src/ios/LottieReactNative/hexStringToColor.swift": [499162500, 0]

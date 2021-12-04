@@ -1,0 +1,6 @@
+module Pods_M1Training_M1TrainingTests {
+  umbrella header "Pods-M1Training-M1TrainingTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
