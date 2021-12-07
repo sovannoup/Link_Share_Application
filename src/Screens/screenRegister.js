@@ -32,41 +32,21 @@ export default class Register extends Component {
     };
   }
 
-  /*   componentDidMount() {
-    this.props.g_language({});    
-
-
-    AsyncStorage.getItem("@pushDeviceId").then(stores => {
-        this.setState({
-            deviceToken:stores
-        })
-    });
-} */
-
-  componentDidMount() {
-    // this.props.g_language();
-    // console.log("hhh", this.props);
-    // const fullMobileNumber = this.props.navigation.getParam("fullMobileNumber");
-    // this.setState({ fullMobileNumber: fullMobileNumber });
-    // AsyncStorage.getItem("@pushDeviceId").then((stores) => {
-    //   this.setState({
-    //     deviceToken: stores,
-    //   });
-    // });
-    // BackHandler.addEventListener('hardwareBackPress', this.disabledBackAndroid);
-  }
-
   UNSAFE_componentWillReceiveProps(nextProps) {
-    console.log(this.props);
     const { user } = this.props;
     if (
-      nextProps.user.r_register &&
-      nextProps.user.r_register != user.r_register
+      nextProps.user.r_checkphone &&
+      nextProps.user.r_checkphone != user.r_checkphone
     ) {
-      console.log("resultttttt", nextProps.r_register);
-      if (nextProps.user.r_register.message === "success") {
-        this.setState({ Lg: nextProps.user.r_register.results });
-        console.log("ok sir");
+      console.log("hey", nextProps.user.r_checkphone.message);
+      if (nextProps.user.r_checkphone.message === "not registered") {
+        NavigationService.navigate(NAV_TYPES.VERIFY_LOGIN, {
+          phonenumber: this.state.phoneNumber,
+          shopname: this.state.shopName,
+          type: "register",
+        });
+      } else {
+        alert("Phone number is already registered");
       }
     }
   }
@@ -80,13 +60,12 @@ export default class Register extends Component {
       phoneNumber.length > 7 &&
       phoneNumber != string
     ) {
-      this.props.f_register({
-        shopname: shopName,
+      this.props.f_checkphone({
         phonenumber: phoneNumber,
-        date: "03/12/2021-09:06",
+        type: "register",
       });
     } else {
-      if (phoneNumber.length == 0) alert("Input Phoner Number...");
+      if (phoneNumber.length == 0) alert("Input Phone Number ...");
       if (shopName.length == 0) alert("Input Shop Name...");
       if (phoneNumber.length <= 7 && phoneNumber.length != 0)
         alert("phone Number more then 7");
@@ -108,61 +87,63 @@ export default class Register extends Component {
             },
           ]}
         >
-          {/*  custom Language */}
-          <CustomText Leaguage={this.state.Lg} />
+          <ScrollView>
+            {/*  custom Language */}
+            <CustomText Leaguage={this.state.Lg} />
 
-          <View style={styles.headerLogo}>
-            <Image
-              style={styles.logo}
-              source={require("./../Assets/Images/Logo-2.png")}
-            />
-          </View>
-          <View style={styles.blockTop}>
-            <View style={styles.box}>
+            <View style={styles.headerLogo}>
               <Image
-                style={styles.icon}
-                source={require("./../Assets/Icon/elements/a5.png")}
-              />
-              <TextInput
-                style={styles.input}
-                placeholder="Shop Name"
-                placeholderTextColor="#95a2b0"
-                onChangeText={(shop_name) => {
-                  this.setState({ shopName: shop_name });
-                }}
+                style={styles.logo}
+                source={require("./../Assets/Images/Logo-2.png")}
               />
             </View>
-            <View style={styles.box}>
-              <Image
-                style={styles.icon}
-                source={require("./../Assets/Icon/elements/a4.png")}
-              />
-              <TextInput
-                style={styles.input}
-                placeholder="Phone number"
-                keyboardType="numeric"
-                placeholderTextColor="#95a2b0"
-                onChangeText={(phone_number) => {
-                  this.setState({ phoneNumber: phone_number });
-                }}
-              />
+            <View style={styles.blockTop}>
+              <View style={styles.box}>
+                <Image
+                  style={styles.icon}
+                  source={require("./../Assets/Icon/elements/a5.png")}
+                />
+                <TextInput
+                  style={styles.input}
+                  placeholder="Shop Name"
+                  placeholderTextColor="#95a2b0"
+                  onChangeText={(shop_name) => {
+                    this.setState({ shopName: shop_name });
+                  }}
+                />
+              </View>
+              <View style={styles.box}>
+                <Image
+                  style={styles.icon}
+                  source={require("./../Assets/Icon/elements/a4.png")}
+                />
+                <TextInput
+                  style={styles.input}
+                  placeholder="Phone number"
+                  keyboardType="numeric"
+                  placeholderTextColor="#95a2b0"
+                  onChangeText={(phone_number) => {
+                    this.setState({ phoneNumber: phone_number });
+                  }}
+                />
+              </View>
+              <View
+                style={{ marginTop: "9%", width: "100%", alignItems: "center" }}
+              >
+                <Button
+                  style={{ marginTop: "9%" }}
+                  title="Register"
+                  press={() => this.handleFullName()}
+                />
+              </View>
+              <TouchableOpacity
+                style={styles.TextLogin}
+                onPress={() => NavigationService.navigate(NAV_TYPES.LOGIN)}
+              >
+                <Text style={styles.Text}>Login</Text>
+              </TouchableOpacity>
             </View>
-            <View
-              style={{ marginTop: "9%", width: "100%", alignItems: "center" }}
-            >
-              <Button
-                style={{ marginTop: "9%" }}
-                title="Register"
-                press={() => this.handleFullName()}
-              />
-            </View>
-            <TouchableOpacity
-              style={styles.TextLogin}
-              onPress={() => NavigationService.navigate(NAV_TYPES.LOGIN)}
-            >
-              <Text style={styles.Text}>Login</Text>
-            </TouchableOpacity>
-          </View>
+          </ScrollView>
         </LinearGradient>
       </SafeAreaView>
     );

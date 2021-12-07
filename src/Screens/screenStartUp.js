@@ -16,34 +16,22 @@ export default class StartUp extends Component {
     super(prop);
     this.state = {};
   }
+
   componentDidMount() {
-    console.log("this.props***", this.props);
-    var dataArray = ["Smey", "30", "Male"];
-    var dataObje = {
-      name: "Smey",
-      age: "30",
-      gender: "Male",
-    };
-    console.log(dataArray[1]);
-    console.log(dataObje.age);
+    this.props.startupWorker();
   }
   render() {
     return (
       <SafeAreaView style={(styles.body, { flex: 1 })}>
-        <TouchableOpacity
-          style={[styles.container]}
-          onPress={() => NavigationService.navigate(NAV_TYPES.REGISTER)}
+        <LinearGradient
+          colors={["#2477B2", "#1758A1", "#104797"]}
+          style={styles.header}
         >
-          <LinearGradient
-            colors={["#2477B2", "#1758A1", "#104797"]}
-            style={styles.header}
-          >
-            <Image
-              style={styles.logo}
-              source={require("./../Assets/Images/Logo-2.png")}
-            />
-          </LinearGradient>
-        </TouchableOpacity>
+          <Image
+            style={styles.logo}
+            source={require("./../Assets/Images/Logo-2.png")}
+          />
+        </LinearGradient>
       </SafeAreaView>
     );
   }

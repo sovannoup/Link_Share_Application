@@ -1,6 +1,7 @@
 import { success, error, abort } from "redux-saga-requests";
 
 export const LOGIN = "LOGIN";
+export const CHECK_PHONE = "CHECK_PHONE";
 export const REGISTER = "REGISTER";
 
 export const f_login = (payload) => ({
@@ -9,6 +10,10 @@ export const f_login = (payload) => ({
 });
 export const f_register = (payload) => ({
   type: REGISTER,
+  payload,
+});
+export const f_checkphone = (payload) => ({
+  type: CHECK_PHONE,
   payload,
 });
 
@@ -53,6 +58,24 @@ const userReducer = (state = initialState, action) => {
       return { ...state, error: true, pending: false, ...action.payload };
     }
     case abort(REGISTER): {
+      return { ...state, pending: false };
+    }
+
+    //CHECK_PHONE
+    case CHECK_PHONE: {
+      return { ...state, pending: true };
+    }
+    case success(CHECK_PHONE): {
+      return {
+        ...state,
+        ...action.payload,
+        pending: false,
+      };
+    }
+    case error(CHECK_PHONE): {
+      return { ...state, error: true, pending: false, ...action.payload };
+    }
+    case abort(CHECK_PHONE): {
       return { ...state, pending: false };
     }
 

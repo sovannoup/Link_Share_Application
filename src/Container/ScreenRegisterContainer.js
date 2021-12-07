@@ -1,9 +1,9 @@
 import { connect } from "react-redux";
 import Register from "../Screens/screenRegister";
-import { f_register } from "../Modules/user/reducer";
+import { f_checkphone } from "../Modules/user/reducer";
 
 const mapDispatchToProps = {
-  f_register,
+  f_checkphone,
 };
 const mapStateToProps = (state) => ({
   ...state,

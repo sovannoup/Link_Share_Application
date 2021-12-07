@@ -14,19 +14,40 @@ import { NAV_TYPES } from "./../Navigation/navTypes";
 import Button from "../component/Button";
 import NavigationService from "./../Service/navigationService";
 import LinearGradient from "react-native-linear-gradient";
+import { ScrollView } from "react-native-gesture-handler";
 export default class ScreenLogin extends Component {
   constructor(prop) {
     super(prop);
     this.state = {
       Lg: [],
+      phonenumber: "",
     };
   }
-  componentDidMount() {
-    // this.props.g_language();
-
-    console.log("hhh", this.props);
-    // BackHandler.addEventListener('hardwareBackPress', this.disabledBackAndroid);
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    const { user } = this.props;
+    if (
+      nextProps.user.r_login_checkphone &&
+      nextProps.user.r_login_checkphone != user.r_login_checkphone
+    ) {
+      console.log("hey", nextProps.user.r_login_checkphone.message);
+      if (nextProps.user.r_login_checkphone.message === "registered") {
+        NavigationService.navigate(NAV_TYPES.VERIFY_LOGIN, {
+          phonenumber: this.state.phonenumber,
+          type: "login",
+        });
+      } else {
+        alert("Phone number is already registered");
+      }
+    }
   }
+
+  startLogin = () => {
+    this.props.f_checkphone({
+      phonenumber: this.state.phonenumber,
+      type: "login",
+    });
+  };
+
   render() {
     return (
       <SafeAreaView style={(styles.body, { flex: 1 })}>
@@ -40,47 +61,47 @@ export default class ScreenLogin extends Component {
             },
           ]}
         >
-          <CustomText Leaguage={this.state.Lg} />
-          <View style={styles.headerLogo}>
-            <Image
-              style={styles.logo}
-              source={require("./../Assets/Images/Logo-2.png")}
-            />
-          </View>
-          <View style={styles.blockTop}>
-            <View style={styles.box}>
+          <ScrollView>
+            <CustomText Leaguage={this.state.Lg} />
+            <View style={styles.headerLogo}>
               <Image
-                style={styles.icon}
-                source={require("./../Assets/Icon/elements/a4.png")}
-              />
-              <TextInput
-                style={styles.input}
-                placeholder="Phone number"
-                keyboardType="numeric"
-                placeholderTextColor="#95a2b0"
+                style={styles.logo}
+                source={require("./../Assets/Images/Logo-2.png")}
               />
             </View>
-
-            {/*  {  <TouchableOpacity
-              style={styles.button}
-              onPress={() => NavigationService.navigate(NAV_TYPES.VERIFY_LOGIN)}>
-              <Text style={styles.buttonText}>Get verify code</Text>
-            </TouchableOpacity> } */}
-            <View
-              style={{ marginTop: "5%", width: "100%", alignItems: "center" }}
-            >
-              <Button
-                title="Get verify code"
-                press={() => NavigationService.navigate(NAV_TYPES.VERIFY_LOGIN)}
-              />
+            <View style={styles.blockTop}>
+              <View style={styles.box}>
+                <Image
+                  style={styles.icon}
+                  source={require("./../Assets/Icon/elements/a4.png")}
+                />
+                <TextInput
+                  style={styles.input}
+                  placeholder="Phone number"
+                  keyboardType="numeric"
+                  placeholderTextColor="#95a2b0"
+                  onChangeText={(value) => {
+                    this.setState({ phonenumber: value });
+                  }}
+                  value={this.state.phonenumber}
+                />
+              </View>
+              <View
+                style={{ marginTop: "5%", width: "100%", alignItems: "center" }}
+              >
+                <Button
+                  title="Get verify code"
+                  press={() => this.startLogin()}
+                />
+              </View>
+              <TouchableOpacity
+                style={styles.TextLogin}
+                onPress={() => NavigationService.navigate(NAV_TYPES.REGISTER)}
+              >
+                <Text style={styles.Text}>REGISTER</Text>
+              </TouchableOpacity>
             </View>
-            <TouchableOpacity
-              style={styles.TextLogin}
-              onPress={() => NavigationService.navigate(NAV_TYPES.REGISTER)}
-            >
-              <Text style={styles.Text}>REGISTER</Text>
-            </TouchableOpacity>
-          </View>
+          </ScrollView>
         </LinearGradient>
       </SafeAreaView>
     );

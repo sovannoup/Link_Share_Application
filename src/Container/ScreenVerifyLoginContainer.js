@@ -1,13 +1,11 @@
-import {connect} from 'react-redux'
-import VerifyLogin from '../Screens/screenVerifyLogin';
-//import { getTest } from "../Modules/login/reducer";
-const mapStateToProps= state =>({
-    ...state
-})
+import { connect } from "react-redux";
+import VerifyLogin from "../Screens/screenVerifyLogin";
+import { f_login, f_register } from "../Modules/user/reducer";
+const mapStateToProps = (state) => ({
+  ...state,
+});
 const mapDispatchToProps = {
-
-}
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps,
-)(VerifyLogin)
+  f_login,
+  f_register,
+};
+export default connect(mapStateToProps, mapDispatchToProps)(VerifyLogin);

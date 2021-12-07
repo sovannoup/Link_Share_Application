@@ -14,18 +14,59 @@ import { NAV_TYPES } from "./../Navigation/navTypes";
 import CodeInput from "react-native-confirmation-code-input";
 import NavigationService from "./../Service/navigationService";
 import LinearGradient from "react-native-linear-gradient";
+import navigationService from "./../Service/navigationService";
+import moment from "moment";
 export default class VerifyLogin extends Component {
   constructor(prop) {
     super(prop);
     this.state = {
-      pin1: "",
-      pin2: "",
-      pin3: "",
-      pin4: "",
-      pin5: "",
-      pin6: "",
+      phonenumber: "",
+      shopname: "",
+      type: "",
     };
   }
+
+  componentDidMount() {
+    const { navigation } = this.props;
+    const phone = navigation.getParam("phonenumber", false);
+    const shop = navigation.getParam("shopname", false);
+    const type = navigation.getParam("type", false);
+    this.setState({ phonenumber: phone, type: type, shopname: shop });
+  }
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    const { user } = this.props;
+
+    if (nextProps.user.r_login && nextProps.user.r_login != user.r_login) {
+      if (nextProps.user.r_login.message === "success") {
+        this.props.f_login({
+          phonenumber: this.state.phonenumber,
+        });
+      }
+    }
+    if (
+      nextProps.user.r_register &&
+      nextProps.user.r_register != user.r_register
+    ) {
+      if (nextProps.user.r_register.message === "success") {
+        navigationService.navigate(NAV_TYPES.HOME);
+      }
+    }
+  }
+  checkCode = (isCorrect) => {
+    if (isCorrect) {
+      if (this.state.type === "login") {
+        this.props.f_login({
+          phonenumber: this.state.phonenumber,
+        });
+      } else {
+        this.props.f_register({
+          shopname: this.state.shopname,
+          phonenumber: this.state.phonenumber,
+          date: moment().format("YYYY/MM/DD-HH:mm:ss"),
+        });
+      }
+    }
+  };
   render() {
     const { pin1, pin2, pin3, pin4, pin5, pin6 } = this.state;
     return (
@@ -71,92 +112,10 @@ export default class VerifyLogin extends Component {
                 compareWithCode="111111"
                 inputPosition="center"
                 size={40}
-                onFulfill={(isValid) => alert(isValid)}
+                onFulfill={(isValid) => this.checkCode(isValid)}
                 containerStyle={{ marginTop: " 3%" }}
               />
             </View>
-
-            {/* <View
-                    style={{flexDirection:'row'}}
-                    >
-                      <TextInput
-                      maxLength={1}
-                      autoFocus={true}
-                      ref={"pin1ref"}
-                      onChangeText={(pin1)=>{
-                        this.setState({pin1:pin1})
-                        if(pin1 !=""){
-                          this.refs.pin2ref.focus()
-                        }
-                      }}
-                      value={pin1}
-                          style={styles.input}
-                          keyboardType="numeric"
-                      />
-                        <TextInput
-                         maxLength={1}
-                        ref={"pin2ref"}
-                        onChangeText={(pin2)=>{
-                          this.setState({pin2:pin2})
-                          if(pin2 !=""){
-                            this.refs.pin3ref.focus()
-                          }
-                        }}
-                        value={pin2}
-                          style={styles.input}
-                          keyboardType="numeric"
-                      />
-                        <TextInput
-                         maxLength={1}
-                        ref={"pin3ref"}
-                        onChangeText={(pin3)=>{
-                          this.setState({pin3:pin3})
-                          if(pin3 !=""){
-                            this.refs.pin4ref.focus()
-                          }
-                        }}
-                        value={pin3}
-                          style={styles.input}
-                          keyboardType="numeric"
-                      />
-                        <TextInput
-                         maxLength={1}
-                        ref={"pin4ref"}
-                        onChangeText={(pin4)=>{
-                          this.setState({pin4:pin4})
-                          if(pin4 !=""){
-                            this.refs.pin5ref.focus()
-                          }
-                        }}
-                        value={pin4}
-                          style={styles.input}
-                          keyboardType="numeric"
-                      />
-                        <TextInput
-                         maxLength={1}
-                        ref={"pin5ref"}
-                        onChangeText={(pin5)=>{
-                          this.setState({pin5:pin5})
-                          if(pin5 !=""){
-                            this.refs.pin6ref.focus()
-                          }
-                        }}
-                        value={pin5}
-                          style={styles.input}
-                          keyboardType="numeric"
-                      />
-                        <TextInput
-                           maxLength={1}
-                        ref={"pin6ref"}
-                        onChangeText={(pin6)=>{
-                          this.setState({pin6:pin6})
-                        }}
-                        value={pin6}
-                          style={styles.input}
-                          keyboardType="numeric"
-                      />
-                    </View> */}
-
             <TouchableOpacity
               style={styles.button}
               onPress={() => NavigationService.navigate(NAV_TYPES.CORE)}

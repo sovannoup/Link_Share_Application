@@ -2,15 +2,17 @@ import { call, put, takeLatest } from "redux-saga/effects";
 import { error, success } from "redux-saga-requests";
 import { axios } from "../app/index";
 import normalize from "../../Utils/normiliseServerResponce";
-import { REGISTER, LOGIN } from "./reducer";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { REGISTER, LOGIN, CHECK_PHONE } from "./reducer";
 
 export function* LoginWorker({ payload }) {
   try {
     const r_login = yield call(axios.post, "myServer/login", payload);
-    console.log("Processing Login....!", normalize(r_login));
-    // yield (axios.defaults.headers.common = {
-    //   Authorization: `Bearer ${result_getSms.data.token}`,
-    // });
+    console.log("Processing Login....!", r_login.data.token);
+    yield (axios.defaults.headers.common = {
+      Authorization: `Bearer ${r_login.data.token}`,
+    });
+    AsyncStorage.setItem("@loginToken", JSON.stringify(r_login.data));
     yield put({
       type: success(LOGIN),
       payload: {
@@ -30,7 +32,6 @@ export function* LoginWorker({ payload }) {
 
 export function* RegisterWorker({ payload }) {
   try {
-    console.log("register payload", payload);
     const r_register = yield call(axios.post, "/myServer/register", payload);
     console.log("Processing Signup....!", r_register);
     yield put({
@@ -51,7 +52,40 @@ export function* RegisterWorker({ payload }) {
   }
 }
 
+export function* checkPhoneWorker({ payload }) {
+  try {
+    const r_checkphone = yield call(
+      axios.post,
+      "/myServer/login/check",
+      payload
+    );
+    if (payload.type === "login") {
+      yield put({
+        type: success(CHECK_PHONE),
+        payload: {
+          r_login_checkphone: normalize(r_checkphone),
+        },
+      });
+    } else {
+      yield put({
+        type: success(CHECK_PHONE),
+        payload: {
+          r_checkphone: normalize(r_checkphone),
+        },
+      });
+    }
+  } catch (e) {
+    // const parseError = yield JSON.parse(JSON.stringify(e));
+    // const message = parseError.data || parseError.response;
+    yield put({
+      type: error(CHECK_PHONE),
+      payload: { r_noPhone: e },
+    });
+  }
+}
+
 export function* userSaga() {
   yield takeLatest(REGISTER, RegisterWorker);
   yield takeLatest(LOGIN, LoginWorker);
+  yield takeLatest(CHECK_PHONE, checkPhoneWorker);
 }

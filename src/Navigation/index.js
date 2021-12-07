@@ -17,7 +17,6 @@ import screenHome from "../Container/ScreenHomeContainer";
 import screenHomeDetail from "../Container/ScreenHomeDetailContainer";
 import screenEditTemplete from "../Container/ScreenEditTempleteContainer";
 import Container_Register from "../Container/ScreenRegisterContainer";
-import Container_ConfirmRegister from "../Container/ScreenConfirmRegisterContainer";
 import Container_VerifyLogin from "../Container/ScreenVerifyLoginContainer";
 import screenSave from "../Container/ScreenSaveContainer";
 import screenSetting from "../Container/ScreenSettingContainer";
@@ -266,20 +265,14 @@ const IntroNavigator = createStackNavigator(
         headerShown: false,
       },
     },
-    [NAV_TYPES.VERIFY_LOGIN]: {
-      screen: Container_VerifyLogin,
-      navigationOptions: {
-        headerShown: false,
-      },
-    },
     [NAV_TYPES.REGISTER]: {
       screen: Container_Register,
       navigationOptions: {
         headerShown: false,
       },
     },
-    [NAV_TYPES.CONFIRMREGISTER]: {
-      screen: Container_ConfirmRegister,
+    [NAV_TYPES.VERIFY_LOGIN]: {
+      screen: Container_VerifyLogin,
       navigationOptions: {
         headerShown: false,
       },
