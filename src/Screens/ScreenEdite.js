@@ -32,7 +32,7 @@ export default class ScreenEdite extends Component {
   componentDidMount() {
     this.getUserStorage();
 
-    this.props.g_bought(1);
+    // this.props.g_bought(1);
     console.log("###############", this.props);
   }
   UNSAFE_componentWillReceiveProps(nextProps) {

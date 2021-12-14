@@ -1,13 +1,10 @@
-import {connect} from 'react-redux'
-import Home from '../Screens/screenHome';
-import { template_img } from "../Modules/home/reducer";
-const mapStateToProps= state =>({
-    ...state
-})
+import { connect } from "react-redux";
+import Home from "../Screens/screenHome";
+import { f_get_home_tem } from "../Modules/home/reducer";
+const mapStateToProps = (state) => ({
+  ...state,
+});
 const mapDispatchToProps = {
-    template_img,
-}
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps,
-)(Home)
+  f_get_home_tem,
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

@@ -32,7 +32,7 @@ export function* LoginWorker({ payload }) {
 
 export function* RegisterWorker({ payload }) {
   try {
-    const r_register = yield call(axios.post, "/myServer/register", payload);
+    const r_register = yield call(axios.post, "/myServer/register");
     console.log("Processing Signup....!", r_register);
     yield put({
       type: success(REGISTER),

@@ -48,7 +48,7 @@ export default class ScreenOrder extends Component {
     return rs;
   }
   componentDidMount() {
-    this.props.s_information();
+    // this.props.s_information();
     //console.log('home oder ><><><><><><><><>>>>>>>>>>>',this.props)
     // BackHandler.addEventListener('hardwareBackPress', this.disabledBackAndroid);
     const { navigation } = this.props;

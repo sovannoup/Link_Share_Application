@@ -12,6 +12,7 @@ import {
 import { NAV_TYPES } from "../Navigation/navTypes";
 import NavigationService from "../Service/navigationService";
 import LinearGradient from "react-native-linear-gradient";
+import moment from "moment";
 
 // Add
 
@@ -27,53 +28,46 @@ export default class screenHomeDetail extends Component {
       name: "",
       phone: "",
       adress: "",
+      price: "",
       templateId: "",
       true: "success",
     };
   }
   componentDidMount() {
-    this.props.s_information();
-    //console.log('home oder ><><><><><><><><>>>>>>>>>>>',this.props)
-    // BackHandler.addEventListener('hardwareBackPress', this.disabledBackAndroid);
+    // this.props.f_orderTemplate();
     const { navigation } = this.props;
-    var infoPage = navigation.getParam("id", false);
-    this.setState({ templateId: infoPage });
-    //console.log('.,.,.,..,.',infoPage)
+    var data = navigation.getParam("data", false);
+    this.setState({ templateId: data.id, price: data.price });
   }
-  /* 
+
   UNSAFE_componentWillReceiveProps(nextProps) {
- 
-  const {home}=this.props;
-      
-  if(nextProps.home.info &&  nextProps.home.info != home.info){
-        if(nextProps.home.info.message==="ordered"){
-            this.setState({Lg: nextProps.home.info.results})
-      
-            
-            
-        }
-    
+    const { home } = this.props;
+    if (
+      nextProps.home.result_order &&
+      nextProps.home.result_order != home.result_order
+    ) {
+      if (nextProps.home.result_order.message === "success") {
+        NavigationService.navigate(NAV_TYPES.HOME);
+        alert("Successfully bought");
+      }
+    }
   }
-  } */
 
   handleFullInfo() {
-    const { name, phone, adress, templateId } = this.state;
+    const { name, phone, adress, templateId, price } = this.state;
     if (name != "" && phone != "" && adress != "") {
       //
-      this.props.s_information({
+      this.props.f_orderTemplate({
         name: name,
         phone: phone,
         address: adress,
-        templateID: templateId,
+        temid: templateId,
+        income: price,
+        date: moment().format("YYYY/MM/DD-HH:mm:ss"),
       });
-      //NavigationService.navigate(NAV_TYPES.SETPIN)
-      alert(this.state.true);
-      //console.log('full name',this.props.s_information())
     } else {
-      if (name.length == 0) alert("Input  Name...");
-
-      if (phone.length == 0) alert("Input phoner number...");
-      if (adress.length == 0) alert("Input adress...");
+      if (name.length == 0 || phone.length == 0 || adress.length == 0)
+        alert("Please input every column...");
     }
   }
 
@@ -91,7 +85,11 @@ export default class screenHomeDetail extends Component {
         </TouchableOpacity>
         <ScrollView style={styles.container}>
           <Text style={styles.textheader}>Template Order</Text>
-          <View style={{ alignItems: "center" }}>
+          <View
+            style={{
+              alignItems: "center",
+            }}
+          >
             <LinearGradient
               colors={["#2477B2", "#1758A1", "#104797"]}
               style={styles.blockFirst}
@@ -133,7 +131,7 @@ export default class screenHomeDetail extends Component {
             </LinearGradient>
           </View>
           <View style={styles.blockBottom}>
-            <Text style={styles.textPrice}>Price: 25$</Text>
+            <Text style={styles.textPrice}>Price: {this.state.price}$</Text>
             <LinearGradient
               colors={["#2c71ac", "#114898"]}
               style={styles.button}
@@ -142,7 +140,7 @@ export default class screenHomeDetail extends Component {
                 style={styles.com}
                 onPress={() => this.handleFullInfo()}
               >
-                <Text style={styles.buttonText}>Comfirm to Buy</Text>
+                <Text style={styles.buttonText}>Confirm to Buy</Text>
               </TouchableOpacity>
             </LinearGradient>
           </View>
@@ -158,14 +156,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   phone: {
-    marginBottom: 80,
+    marginBottom: 60,
     fontSize: 16,
-    marginRight: "2%",
     color: "#fff",
   },
   label: {
     fontSize: 16,
-    marginRight: "2%",
     color: "#fff",
   },
   form: {
@@ -174,7 +170,7 @@ const styles = StyleSheet.create({
     marginBottom: 14,
     justifyContent: "space-between",
     alignItems: "center",
-    paddingHorizontal: "12%",
+    paddingHorizontal: 30,
     height: "14%",
   },
   form1: {
@@ -182,7 +178,7 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingHorizontal: "12%",
+    paddingHorizontal: 30,
     height: "50%",
   },
   container: {},
@@ -192,12 +188,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   blockFirst: {
-    margin: 20,
-    padding: "1%",
-    borderRadius: 20,
+    marginVertical: 20,
+    paddingHorizontal: "1%",
+    paddingVertical: "3%",
+    borderRadius: 15,
     flexDirection: "row",
     width: "90%",
-    height: "65%",
+    height: 250,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -207,29 +204,28 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingHorizontal: "6%",
     flexDirection: "row",
-    position: "absolute",
-    bottom: "16%",
   },
 
   input: {
-    fontSize: 20,
+    fontSize: 16,
     height: "100%",
     width: "79%",
     paddingVertical: 0,
-    paddingHorizontal: 20,
+    borderRadius: 5,
+    paddingHorizontal: 5,
     marginLeft: "1.5%",
     backgroundColor: "white",
     /*  paddingHorizontal:'1%', */
   },
 
   inputtxtArea: {
-    fontSize: 20,
+    fontSize: 16,
     height: "100%",
     width: "79%",
     textAlignVertical: "top",
-    marginLeft: "1%",
+    borderRadius: 5,
     backgroundColor: "white",
-    paddingHorizontal: 25,
+    paddingHorizontal: 5,
   },
 
   button: {
@@ -261,6 +257,7 @@ const styles = StyleSheet.create({
   },
 
   btnicon: {
+    width: 35,
     marginTop: 20,
     marginLeft: 20,
   },

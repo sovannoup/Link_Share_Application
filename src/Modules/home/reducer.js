@@ -1,27 +1,16 @@
 import { success, error, abort } from "redux-saga-requests";
 
-export const GET_TEMPLATE = "GET_TEMPLATE";
-export const HOME_ORDER = "HOME_ORDER";
-export const HOME_IMG_DETIAL = "HOME_IMG_DETIAL";
-export const BOUGHT = "BOUGHT";
+export const GET_HOME_TEM = "GET_HOME_TEM";
+export const ORDER_TEMPLATE = "ORDER_TEMPLATE";
 
-export const f_get_template = (payload) => ({
-  type: GET_TEMPLATE,
+export const f_get_home_tem = (payload) => ({
+  type: GET_HOME_TEM,
   payload,
 });
-export const s_information = (payload) => ({
-  type: HOME_ORDER,
+export const f_orderTemplate = (payload) => ({
+  type: ORDER_TEMPLATE,
   payload,
 });
-export const g_detialImg = (payload) => ({
-  type: HOME_IMG_DETIAL,
-  payload,
-});
-export const g_bought = (payload) => ({
-  type: BOUGHT,
-  payload,
-});
-
 const initialState = {
   pending: false,
   error: false,
@@ -33,73 +22,38 @@ const homeReducer = (state = initialState, action) => {
     //TEST
 
     //TEMPLTE IMG
-    case GET_TEMPLATE: {
+    case GET_HOME_TEM: {
       return { ...state, pending: true };
     }
-    case success(GET_TEMPLATE): {
+    case success(GET_HOME_TEM): {
       return {
         ...state,
         ...action.payload,
         pending: false,
       };
     }
-    case error(GET_TEMPLATE): {
+    case error(GET_HOME_TEM): {
       return { ...state, error: true, pending: false, ...action.payload };
     }
-    case abort(GET_TEMPLATE): {
-      return { ...state, pending: false };
-    }
-    //HOME-ORDER
-
-    case HOME_ORDER: {
-      return { ...state, pending: true };
-    }
-    case success(HOME_ORDER): {
-      return {
-        ...state,
-        ...action.payload,
-        pending: false,
-      };
-    }
-    case error(HOME_ORDER): {
-      return { ...state, error: true, pending: false, ...action.payload };
-    }
-    case abort(HOME_ORDER): {
-      return { ...state, pending: false };
-    }
-    //HOME_DETIALIMG
-    case HOME_IMG_DETIAL: {
-      return { ...state, pending: true };
-    }
-    case success(HOME_IMG_DETIAL): {
-      return {
-        ...state,
-        ...action.payload,
-        pending: false,
-      };
-    }
-    case error(HOME_IMG_DETIAL): {
-      return { ...state, error: true, pending: false, ...action.payload };
-    }
-    case abort(HOME_IMG_DETIAL): {
+    case abort(GET_HOME_TEM): {
       return { ...state, pending: false };
     }
 
-    //BOUGHT
-    case BOUGHT: {
+    //Start Order
+    case ORDER_TEMPLATE: {
       return { ...state, pending: true };
     }
-    case success(BOUGHT): {
+    case success(ORDER_TEMPLATE): {
       return {
         ...state,
         ...action.payload,
         pending: false,
       };
     }
-    case error(BOUGHT): {
+    case error(ORDER_TEMPLATE): {
       return { ...state, error: true, pending: false, ...action.payload };
     }
-    case abort(BOUGHT): {
+    case abort(ORDER_TEMPLATE): {
       return { ...state, pending: false };
     }
 

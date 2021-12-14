@@ -53,8 +53,7 @@ export default class Home extends Component {
   };
 
   componentDidMount() {
-    this.props.template_img();
-    console.log("prop++++++++++++++", this.props);
+    this.props.f_get_home_tem();
     {
       this.state.slideImg.map((i, k) => (
         <IconF key={k} name="minus" style={k == this.state.active} />
@@ -65,8 +64,9 @@ export default class Home extends Component {
   }
   handle(index) {
     var item = this.state.slideImg[index];
+    console.log(item);
     NavigationService.navigate(NAV_TYPES.HOME_BUY, {
-      id: item.id,
+      data: item,
       index: index,
     });
     /* console.log('handle__title_______',{title:item.title})
@@ -76,45 +76,30 @@ export default class Home extends Component {
   UNSAFE_componentWillReceiveProps(nextProps) {
     const { home } = this.props;
 
-    if (
-      nextProps.home.templatImg &&
-      nextProps.home.templatImg !== home.templatImg
-    ) {
+    if (nextProps.home.tem_list && nextProps.home.tem_list != home.tem_list) {
       //console.log('te+++++plate_________________________-',nextProps.home.templatImg.results.length)
-      if (nextProps.home.templatImg.results.length > 0) {
+      if (nextProps.home.tem_list.message === "success") {
         var slideImg = [],
           detialImg = [];
         for (
           let index = 0;
-          index < nextProps.home.templatImg.results.length;
+          index < nextProps.home.tem_list.results.length;
           index++
         ) {
-          //console.log('slide+++++++++Img',nextProps.home.templatImg.results[0]);
-          const element = nextProps.home.templatImg.results[index];
+          const element = nextProps.home.tem_list.results[index];
           slideImg.push({
             ...element,
-            url: IMG_URL + element.imagesimple,
+            url: IMG_URL + element.image,
           });
-
           /*             detialImg.push({
               ...element,
               urlDetial: IMG_DETIAL_URL+element.detialTemplate
           }) */
         }
-
         this.setState({ slideImg: slideImg });
         //console.log('url*&&&&&&&&&&&&&&&&',IMG_URL)
       }
     }
-    /* if(nextProps.home.templatImg &&  nextProps.home.templatImg != home.templatImg){
-       console.log('reutle',nextProps.language)
-        if(nextProps.home.templatImg.message==="success"){
-            this.setState({img:nextProps.home.templatImg})
-            
-            
-        }
-    
-  } */
   }
   render() {
     const { slideImg } = this.state;
@@ -141,7 +126,7 @@ export default class Home extends Component {
                 key={index}
                 onPress={() =>
                   NavigationService.navigate(NAV_TYPES.HOME_BUY_NOW, {
-                    id: item.id,
+                    data: item,
                     index: index,
                   })
                 }
@@ -174,10 +159,14 @@ export default class Home extends Component {
 
         <LinearGradient colors={["#1757A1", "#2272AF"]} style={styles.button}>
           <TouchableOpacity
-            style={{ width: "100%", height: "100%", justifyContent: "center" }}
+            style={{
+              width: "100%",
+              height: "100%",
+              justifyContent: "center",
+            }}
             onPress={() => this.handle(this.state.active)}
           >
-            <Text style={styles.buttonText}>ORDER NOW{this.state.img}</Text>
+            <Text style={styles.buttonText}>ORDER NOW</Text>
           </TouchableOpacity>
         </LinearGradient>
 
@@ -242,7 +231,7 @@ const styles = StyleSheet.create({
   buttonText: {
     textAlign: "center",
     color: "#fff",
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: "bold",
     fontFamily: "Ephesis-Regular",
   },

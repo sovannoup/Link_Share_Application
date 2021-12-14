@@ -123,7 +123,8 @@ const TabNavigator = createBottomTabNavigator(
             <IconF
               name="home"
               style={{
-                fontSize: 25,
+                fontSize: 20,
+                marginBottom: 3,
                 textAlign: "center",
                 color: focused ? "#60d1f1" : "#ECECEC",
               }}
@@ -151,7 +152,8 @@ const TabNavigator = createBottomTabNavigator(
             <IconE
               name="box"
               style={{
-                fontSize: 25,
+                fontSize: 20,
+                marginBottom: 3,
                 textAlign: "center",
                 color: focused ? "#60d1f1" : "#ECECEC",
               }}
@@ -178,7 +180,8 @@ const TabNavigator = createBottomTabNavigator(
             <IconF
               name="edit"
               style={{
-                fontSize: 25,
+                fontSize: 20,
+                marginBottom: 3,
                 textAlign: "center",
                 color: focused ? "#60d1f1" : "#ECECEC",
               }}
@@ -205,7 +208,8 @@ const TabNavigator = createBottomTabNavigator(
             <IconF
               name="settings"
               style={{
-                fontSize: 25,
+                fontSize: 20,
+                marginBottom: 3,
                 textAlign: "center",
                 color: focused ? "#60d1f1" : "#ECECEC",
               }}
@@ -231,6 +235,7 @@ const TabNavigator = createBottomTabNavigator(
       showLabel: true,
       labelStyle: {
         fontSize: 20,
+        marginBottom: 3,
       },
       style: {
         backgroundColor: "#114898",
