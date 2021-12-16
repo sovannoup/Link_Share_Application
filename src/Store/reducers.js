@@ -6,5 +6,5 @@ export default {
   app: appReducer,
   user: userReducer,
   home: homeReducer,
-  edite: editeReducer,
+  edit: editeReducer,
 };

@@ -256,9 +256,16 @@ const CoreNavigation = createStackNavigator(
         headerShown: false,
       },
     },
+    [NAV_TYPES.EDITTEMPLETE]: {
+      screen: screenEditTemplete,
+      navigationOptions: {
+        headerShown: false,
+      },
+    },
   },
   {
-    initialRouteName: NAV_TYPES.TAB_BAR,
+    // initialRouteName: NAV_TYPES.TAB_BAR,
+    initialRouteName: NAV_TYPES.EDITTEMPLETE,
   }
 );
 

@@ -12,12 +12,6 @@ import {
 import NavigationService from "../Service/navigationService";
 import { NAV_TYPES } from "../Navigation/navTypes";
 import { ScrollView } from "react-native-gesture-handler";
-import Bought from "../component/Bought";
-import Edited from "../component/Edited";
-import LinearGradient from "react-native-linear-gradient";
-import { TouchableRipple } from "react-native-paper";
-import IconI from "react-native-vector-icons/Ionicons";
-var product = [];
 export default class ScreenEdite extends Component {
   constructor(prop) {
     super(prop);
@@ -30,64 +24,19 @@ export default class ScreenEdite extends Component {
     };
   }
   componentDidMount() {
-    this.getUserStorage();
-
-    // this.props.g_bought(1);
-    console.log("###############", this.props);
+    this.props.f_getB_template();
   }
+
   UNSAFE_componentWillReceiveProps(nextProps) {
-    console.log("/////_+_+__+_+_+_+_+_+_+_+_+_+", nextProps);
-    const { home } = this.props;
-
-    if (nextProps.home.bought && nextProps.home.bought != home.bought) {
-      console.log("reutle-------------------", nextProps.home);
-      if (nextProps.home.bought.message === "success") {
-        // this.setState({Lg: nextProps.home.bought.results})
-        console.log(
-          "idididididid<><>><><><>><><><>",
-          nextProps.home.bought.results
-        );
+    const { edit } = this.props;
+    if (
+      nextProps.edit.result_tem &&
+      nextProps.edit.result_tem != edit.result_tem
+    ) {
+      if (nextProps.edit.result_tem.message === "success") {
+        this.setState({ products: nextProps.edit.result_tem.data });
       }
     }
-  }
-
-  getUserStorage = async () => {
-    try {
-      const value = await AsyncStorage.getItem("@DataLogin");
-      if (value !== null) {
-        // We have data!!
-        console.log("value", JSON.parse(value));
-        if (value) {
-          this.setState({
-            userStorage: JSON.parse(value).data,
-          });
-        }
-      } else {
-        console.log("value", false);
-        return;
-      }
-    } catch (error) {
-      // Error retrieving data
-      console.log("error", error);
-    }
-  };
-
-  doItemsToArray() {
-    this.setState({ products: product });
-    //Adding Items To Array.
-    //product.push( this.state.Holder);
-    product.splice(product.length - 1);
-    console.log("3333333", this.state.products);
-    // Showing the complete Array on Screen Using Alert.
-  }
-
-  AddItemsToArray() {
-    this.setState({ products: product }),
-      //Adding Items To Array.
-      product.push(this.state.Holder);
-    //product.splice(product.length-1);
-    console.log("3333333", this.state.products);
-    // Showing the complete Array on Screen Using Alert.
   }
 
   _CallGet(index, title) {
@@ -140,7 +89,7 @@ export default class ScreenEdite extends Component {
 
           <View style={styles.products}>
             {this.state.stateName === "Bought" &&
-              product.map((item, index) => {
+              this.state.products.map((item, index) => {
                 return (
                   <TouchableOpacity
                     style={styles.productBox}
@@ -153,15 +102,17 @@ export default class ScreenEdite extends Component {
                       source={require("../Assets/img.jpg")}
                     />
                     <View style={{ flexDirection: "column", paddingLeft: 10 }}>
-                      <Text style={{ fontSize: 15 }}>{proName}</Text>
+                      <Text style={{ fontSize: 15, fontWeight: "bold" }}>
+                        {item.name}
+                      </Text>
                       <Text
                         style={{
                           fontSize: 15,
-                          marginVertical: "8%",
-                          marginBottom: "20%",
+                          marginVertical: 5,
+                          marginRight: 50,
                         }}
                       >
-                        {proPrice}
+                        {item.description}
                       </Text>
                     </View>
                     {/*  <TouchableOpacity onPress={()=>this.doItemsToArray()} style={{position:'absolute',right:10,backgroundColor:'red'}}><IconI name="remove-outline" size={25}></IconI></TouchableOpacity> */}
@@ -170,7 +121,7 @@ export default class ScreenEdite extends Component {
               })}
 
             {this.state.stateName === "Edited" &&
-              product.map((item, index) => {
+              this.state.products.map((item, index) => {
                 return (
                   <TouchableOpacity
                     style={styles.productBox}

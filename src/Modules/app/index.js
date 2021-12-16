@@ -33,10 +33,9 @@ axios.interceptors.response.use(
 
 function* startupWorker() {
   var authDataString = yield AsyncStorage.getItem("@loginToken");
-  console.log("hi", authDataString);
+  // console.log("hi", authDataString);
   const authData = yield JSON.parse(authDataString);
   if (authDataString && authData.token) {
-    console.log("authData.token", authData.token);
     yield (axios.defaults.headers.common = {
       Authorization: `Bearer ${authData.token}`,
     });

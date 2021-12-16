@@ -23,34 +23,65 @@ export default class EditeTemplate extends Component {
   constructor(prop) {
     super(prop);
     this.state = {
-      imageOne: "",
-      imageTwo: "",
-      imageThree: "",
-      imageFour: "",
-      imageFive: "",
-      imageSix: "",
-      image8: "",
-      image9: "",
-      image10: "",
-      image11: "",
-      image12: "",
-      image13: "",
-      image14: "",
-      image15: "",
-      image16: "",
-      image17: "",
-      image18: "",
-      imageS1: "",
-      imageS2: "",
-      imageS3: "",
+      id: "",
+      title: "",
+      logoimage: "",
+      subtitle: "",
+      shopName: "",
+      messangerLink: "",
+      telegramLink: "",
+      address: "",
+      phonenumber: "",
+      email: "",
+
+      proDetail1: "",
+      proDetail2: "",
+      proDetail3: "",
+
+      imgTxt6: "",
+      imgTxt7: "",
+      imgTxt8: "",
+
+      oriPrice: "",
+      disPrice: "",
+      percent_dis: "",
+
+      slider1: "",
+      slider2: "",
+      slider3: "",
+
+      firstImg: "",
+      secImg: "",
+      thirdImg: "",
+      fourthImg: "",
+      fifthImg: "",
+
+      sixthImg: "",
+      sevenImg: "",
+      eightImg: "",
+
+      nineImg: "",
+      tenImg: "",
+
+      elevenImg: "",
+      twelveImg: "",
+      thirdteenImg: "",
+      fourteenImg: "",
+
+      fifteenImg: "",
+      sixteenImg: "",
     };
   }
+  txtChange = (key, value) => {
+    this.setState({ [key]: value });
+  };
+
   selectImages(key) {
     ImagePicker.openPicker({
       cropping: true,
       includeBase64: true,
     }).then((image) => {
-      console.log(image);
+      // console.log(image);
       const _data = "data:image/png;base64," + image.data;
       this.setState({
         [key]: _data,
@@ -60,27 +91,52 @@ export default class EditeTemplate extends Component {
 
   render() {
     const {
-      imageOne,
-      imageTwo,
-      imageThree,
-      imageFour,
-      imageFive,
-      imageSix,
-      imageSeven,
-      image8,
-      image9,
-      image10,
-      image11,
-      image12,
-      image13,
-      image14,
-      image15,
-      image16,
-      image17,
-      image18,
-      imageS1,
-      imageS2,
-      imageS3,
+      title,
+      logoimage,
+      subtitle,
+      shopName,
+      messangerLink,
+      telegramLink,
+      address,
+      phonenumber,
+      email,
+
+      slider1,
+      slider2,
+      slider3,
+
+      proDetail1,
+      proDetail2,
+      proDetail3,
+
+      imgTxt6,
+      imgTxt7,
+      imgTxt8,
+
+      oriPrice,
+      disPrice,
+      percent_dis,
+
+      firstImg,
+      secImg,
+      thirdImg,
+      fourthImg,
+      fifthImg,
+
+      sixthImg,
+      sevenImg,
+      eightImg,
+
+      nineImg,
+      tenImg,
+
+      elevenImg,
+      twelveImg,
+      thirdteenImg,
+      fourteenImg,
+
+      fifteenImg,
+      sixteenImg,
     } = this.state;
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: "#E5E5E5" }}>
@@ -99,14 +155,14 @@ export default class EditeTemplate extends Component {
           <View style={styles.Box}>
             <TouchableOpacity
               style={styles.proBox}
-              onPress={() => this.selectImages("imageTwo")}
+              onPress={() => this.selectImages("logoimage")}
             >
               {
                 <Image
                   style={{ width: "100%", height: "100%" }}
                   source={
-                    imageTwo
-                      ? { uri: imageTwo }
+                    logoimage
+                      ? { uri: logoimage }
                       : require("./../Assets/Images/loo.jpg")
                   }
                 />
@@ -123,14 +179,14 @@ export default class EditeTemplate extends Component {
               >
                 <TouchableOpacity
                   style={styles.EditeBox}
-                  onPress={() => this.selectImages("imageS1")}
+                  onPress={() => this.selectImages("slider1")}
                 >
                   {
                     <Image
                       style={{ width: "100%", height: "100%" }}
                       source={
-                        imageS1
-                          ? { uri: imageS1 }
+                        slider1
+                          ? { uri: slider1 }
                           : require("./../Assets/Images/blank.jpg")
                       }
                     />
@@ -139,14 +195,14 @@ export default class EditeTemplate extends Component {
 
                 <TouchableOpacity
                   style={styles.EditeBox}
-                  onPress={() => this.selectImages("imageS2")}
+                  onPress={() => this.selectImages("slider2")}
                 >
                   {
                     <Image
                       style={{ width: "100%", height: "100%" }}
                       source={
-                        imageS2
-                          ? { uri: imageS2 }
+                        slider2
+                          ? { uri: slider2 }
                           : require("./../Assets/Images/blank.jpg")
                       }
                     />
@@ -154,14 +210,14 @@ export default class EditeTemplate extends Component {
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.EditeBox}
-                  onPress={() => this.selectImages("imageS3")}
+                  onPress={() => this.selectImages("slider3")}
                 >
                   {
                     <Image
                       style={{ width: "100%", height: "100%" }}
                       source={
-                        imageS3
-                          ? { uri: imageS3 }
+                        slider3
+                          ? { uri: slider3 }
                           : require("./../Assets/Images/blank.jpg")
                       }
                     />
@@ -176,6 +232,8 @@ export default class EditeTemplate extends Component {
                 style={styles.titlF}
                 placeholder="Product Title"
                 placeholderTextColor="gray"
+                onChangeText={(text) => this.txtChange("title", text)}
+                value={title}
               />
             </View>
             {/* form */}
@@ -187,6 +245,8 @@ export default class EditeTemplate extends Component {
                     style={styles.title}
                     placeholder="Text"
                     placeholderTextColor="gray"
+                    onChangeText={(text) => this.txtChange("oriPrice", text)}
+                    value={oriPrice}
                   />
                 </View>
                 <View style={styles.input}>
@@ -195,6 +255,8 @@ export default class EditeTemplate extends Component {
                     style={styles.title}
                     placeholder="Text"
                     placeholderTextColor="gray"
+                    onChangeText={(text) => this.txtChange("disPrice", text)}
+                    value={disPrice}
                   />
                 </View>
                 <View style={styles.input}>
@@ -203,6 +265,8 @@ export default class EditeTemplate extends Component {
                     style={styles.title}
                     placeholder="Text"
                     placeholderTextColor="gray"
+                    onChangeText={(text) => this.txtChange("percent_dis", text)}
+                    value={percent_dis}
                   />
                 </View>
               </View>
@@ -226,6 +290,8 @@ export default class EditeTemplate extends Component {
                   placeholderTextColor="gray"
                   placeholder="Product Detail"
                   style={{ padding: 0 }}
+                  onChangeText={(text) => this.txtChange("proDetail1", text)}
+                  value={proDetail1}
                 />
               </View>
             </View>
@@ -243,8 +309,11 @@ export default class EditeTemplate extends Component {
                   numberOfLines={10}
                   placeholderTextColor="gray"
                   placeholder="Detail"
+                  onChangeText={(text) => this.txtChange("proDetail2", text)}
+                  value={proDetail2}
                   style={{
                     borderWidth: 1,
+                    borderRadius: 5,
                     borderColor: "gray",
                     height: "100%",
                     textAlignVertical: "top",
@@ -258,8 +327,11 @@ export default class EditeTemplate extends Component {
                   numberOfLines={10}
                   placeholderTextColor="gray"
                   placeholder="Detail"
+                  onChangeText={(text) => this.txtChange("proDetail3", text)}
+                  value={proDetail3}
                   style={{
                     borderWidth: 1,
+                    borderRadius: 5,
                     borderColor: "gray",
                     height: "100%",
                     textAlignVertical: "top",
@@ -270,15 +342,15 @@ export default class EditeTemplate extends Component {
             </View>
             {/* img */}
             <TouchableOpacity
-              onPress={() => this.selectImages("imageThree")}
+              onPress={() => this.selectImages("firstImg")}
               style={styles.img}
             >
               {
                 <Image
                   style={{ width: "100%", height: "100%" }}
                   source={
-                    imageThree
-                      ? { uri: imageThree }
+                    firstImg
+                      ? { uri: firstImg }
                       : require("./../Assets/Images/blank.jpg")
                   }
                 />
@@ -286,60 +358,60 @@ export default class EditeTemplate extends Component {
             </TouchableOpacity>
             <View style={styles.subImg}>
               <TouchableOpacity
-                onPress={() => this.selectImages("imageFour")}
+                onPress={() => this.selectImages("secImg")}
                 style={styles.subImg1}
               >
                 {
                   <Image
                     style={styles.logo}
                     source={
-                      imageFour
-                        ? { uri: imageFour }
+                      secImg
+                        ? { uri: secImg }
                         : require("./../Assets/Images/blank.jpg")
                     }
                   />
                 }
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => this.selectImages("imageFive")}
+                onPress={() => this.selectImages("thirdImg")}
                 style={styles.subImg1}
               >
                 {
                   <Image
                     style={styles.logo}
                     source={
-                      imageFive
-                        ? { uri: imageFive }
+                      thirdImg
+                        ? { uri: thirdImg }
                         : require("./../Assets/Images/blank.jpg")
                     }
                   />
                 }
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => this.selectImages("imageSix")}
+                onPress={() => this.selectImages("fourthImg")}
                 style={styles.subImg1}
               >
                 {
                   <Image
                     style={styles.logo}
                     source={
-                      imageSix
-                        ? { uri: imageSix }
+                      fourthImg
+                        ? { uri: fourthImg }
                         : require("./../Assets/Images/blank.jpg")
                     }
                   />
                 }
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => this.selectImages("imageSeven")}
+                onPress={() => this.selectImages("fifthImg")}
                 style={styles.subImg1}
               >
                 {
                   <Image
                     style={styles.logo}
                     source={
-                      imageSeven
-                        ? { uri: imageSeven }
+                      fifthImg
+                        ? { uri: fifthImg }
                         : require("./../Assets/Images/blank.jpg")
                     }
                   />
@@ -364,6 +436,8 @@ export default class EditeTemplate extends Component {
                   placeholderTextColor="gray"
                   placeholderTextColor="gray"
                   placeholder="Sub Title Text"
+                  onChangeText={(text) => this.txtChange("subtitle", text)}
+                  value={subtitle}
                   style={{ padding: 0 }}
                 />
               </View>
@@ -373,14 +447,14 @@ export default class EditeTemplate extends Component {
               <View style={styles.coverPicText}>
                 <TouchableOpacity
                   style={styles.pic}
-                  onPress={() => this.selectImages("image8")}
+                  onPress={() => this.selectImages("sixthImg")}
                 >
                   {
                     <Image
                       style={{ width: "100%", height: "100%" }}
                       source={
-                        image8
-                          ? { uri: image8 }
+                        sixthImg
+                          ? { uri: sixthImg }
                           : require("./../Assets/Images/blank.jpg")
                       }
                     />
@@ -392,8 +466,11 @@ export default class EditeTemplate extends Component {
                     numberOfLines={10}
                     placeholderTextColor="gray"
                     placeholder="Text"
+                    onChangeText={(text) => this.txtChange("imgTxt6", text)}
+                    value={imgTxt6}
                     style={{
                       borderWidth: 1,
+                      borderRadius: 5,
                       borderColor: "gray",
                       height: "100%",
                       textAlignVertical: "top",
@@ -408,14 +485,14 @@ export default class EditeTemplate extends Component {
               <View style={styles.coverPicText}>
                 <TouchableOpacity
                   style={styles.pic}
-                  onPress={() => this.selectImages("image9")}
+                  onPress={() => this.selectImages("sevenImg")}
                 >
                   {
                     <Image
                       style={{ width: "100%", height: "100%" }}
                       source={
-                        image9
-                          ? { uri: image9 }
+                        sevenImg
+                          ? { uri: sevenImg }
                           : require("./../Assets/Images/blank.jpg")
                       }
                     />
@@ -427,8 +504,11 @@ export default class EditeTemplate extends Component {
                     numberOfLines={10}
                     placeholderTextColor="gray"
                     placeholder="Text"
+                    onChangeText={(text) => this.txtChange("imgTxt7", text)}
+                    value={imgTxt7}
                     style={{
                       borderWidth: 1,
+                      borderRadius: 5,
                       borderColor: "gray",
                       height: "100%",
                       textAlignVertical: "top",
@@ -443,14 +523,14 @@ export default class EditeTemplate extends Component {
               <View style={styles.coverPicText}>
                 <TouchableOpacity
                   style={styles.pic}
-                  onPress={() => this.selectImages("image10")}
+                  onPress={() => this.selectImages("eightImg")}
                 >
                   {
                     <Image
                       style={{ width: "100%", height: "100%" }}
                       source={
-                        image10
-                          ? { uri: image10 }
+                        eightImg
+                          ? { uri: eightImg }
                           : require("./../Assets/Images/blank.jpg")
                       }
                     />
@@ -462,8 +542,11 @@ export default class EditeTemplate extends Component {
                     numberOfLines={10}
                     placeholderTextColor="gray"
                     placeholder="Text"
+                    onChangeText={(text) => this.txtChange("imgTxt8", text)}
+                    value={imgTxt8}
                     style={{
                       borderWidth: 1,
+                      borderRadius: 5,
                       borderColor: "gray",
                       height: "100%",
                       textAlignVertical: "top",
@@ -487,14 +570,14 @@ export default class EditeTemplate extends Component {
             {/* contentpic 1 */}
             <TouchableOpacity
               style={{ width: "100%", height: 350, padding: 10 }}
-              onPress={() => this.selectImages("image11")}
+              onPress={() => this.selectImages("nineImg")}
             >
               {
                 <Image
                   style={{ width: "100%", height: "100%" }}
                   source={
-                    image11
-                      ? { uri: image11 }
+                    nineImg
+                      ? { uri: nineImg }
                       : require("./../Assets/Images/blank.jpg")
                   }
                 />
@@ -503,14 +586,14 @@ export default class EditeTemplate extends Component {
             {/* contentpic 2 */}
             <TouchableOpacity
               style={{ width: "100%", height: 350, padding: 10 }}
-              onPress={() => this.selectImages("image12")}
+              onPress={() => this.selectImages("tenImg")}
             >
               {
                 <Image
                   style={{ width: "100%", height: "100%" }}
                   source={
-                    image12
-                      ? { uri: image12 }
+                    tenImg
+                      ? { uri: tenImg }
                       : require("./../Assets/Images/blank.jpg")
                   }
                 />
@@ -528,29 +611,29 @@ export default class EditeTemplate extends Component {
             >
               <TouchableOpacity
                 style={styles.LeftPic}
-                onPress={() => this.selectImages("image13")}
+                onPress={() => this.selectImages("elevenImg")}
               >
                 {
                   <Image
                     style={{ width: "100%", height: "100%" }}
                     source={
-                      image13
-                        ? { uri: image13 }
+                      elevenImg
+                        ? { uri: elevenImg }
                         : require("./../Assets/Images/blank.jpg")
                     }
                   />
                 }
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => this.selectImages("image14")}
+                onPress={() => this.selectImages("twelveImg")}
                 style={styles.RightPic}
               >
                 {
                   <Image
                     style={{ width: "100%", height: "100%" }}
                     source={
-                      image14
-                        ? { uri: image14 }
+                      twelveImg
+                        ? { uri: twelveImg }
                         : require("./../Assets/Images/blank.jpg")
                     }
                   />
@@ -567,30 +650,30 @@ export default class EditeTemplate extends Component {
               }}
             >
               <TouchableOpacity
-                onPress={() => this.selectImages("image15")}
+                onPress={() => this.selectImages("thirdteenImg")}
                 style={styles.RightPic}
               >
                 {
                   <Image
                     style={{ width: "100%", height: "100%" }}
                     source={
-                      image15
-                        ? { uri: image15 }
+                      thirdteenImg
+                        ? { uri: thirdteenImg }
                         : require("./../Assets/Images/blank.jpg")
                     }
                   />
                 }
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => this.selectImages("image16")}
+                onPress={() => this.selectImages("fourteenImg")}
                 style={styles.RightPic}
               >
                 {
                   <Image
                     style={{ width: "100%", height: "100%" }}
                     source={
-                      image16
-                        ? { uri: image16 }
+                      fourteenImg
+                        ? { uri: fourteenImg }
                         : require("./../Assets/Images/blank.jpg")
                     }
                   />
@@ -599,15 +682,15 @@ export default class EditeTemplate extends Component {
             </View>
             {/*  */}
             <TouchableOpacity
-              onPress={() => this.selectImages("image17")}
+              onPress={() => this.selectImages("fifteenImg")}
               style={{ width: "100%", height: 350, padding: 10 }}
             >
               {
                 <Image
                   style={{ width: "100%", height: "100%" }}
                   source={
-                    image17
-                      ? { uri: image17 }
+                    fifteenImg
+                      ? { uri: fifteenImg }
                       : require("./../Assets/Images/blank.jpg")
                   }
                 />
@@ -616,15 +699,15 @@ export default class EditeTemplate extends Component {
             {/*  */}
 
             <TouchableOpacity
-              onPress={() => this.selectImages("image18")}
+              onPress={() => this.selectImages("sixteenImg")}
               style={{ width: "100%", height: 350, padding: 10 }}
             >
               {
                 <Image
                   style={{ width: "100%", height: "100%" }}
                   source={
-                    image18
-                      ? { uri: image18 }
+                    sixteenImg
+                      ? { uri: sixteenImg }
                       : require("./../Assets/Images/blank.jpg")
                   }
                 />
@@ -646,6 +729,8 @@ export default class EditeTemplate extends Component {
               <TextInput
                 placeholderTextColor="gray"
                 placeholder="SHOP Name"
+                onChangeText={(text) => this.txtChange("shopName", text)}
+                value={shopName}
                 style={{ fontSize: 20, padding: 0, textAlign: "center" }}
               />
             </TouchableOpacity>
@@ -658,6 +743,10 @@ export default class EditeTemplate extends Component {
                   />
                   <TextInput
                     placeholderTextColor="gray"
+                    onChangeText={(text) =>
+                      this.txtChange("messangerLink", text)
+                    }
+                    value={messangerLink}
                     style={{
                       width: "85%",
                       height: 33,
@@ -675,6 +764,8 @@ export default class EditeTemplate extends Component {
                   />
                   <TextInput
                     placeholderTextColor="gray"
+                    onChangeText={(text) => this.txtChange("address", text)}
+                    value={address}
                     style={{
                       width: "85%",
                       height: 33,
@@ -692,6 +783,8 @@ export default class EditeTemplate extends Component {
                   />
                   <TextInput
                     placeholderTextColor="gray"
+                    onChangeText={(text) => this.txtChange("phonenumber", text)}
+                    value={phonenumber}
                     style={{
                       width: "85%",
                       height: 33,
@@ -709,6 +802,8 @@ export default class EditeTemplate extends Component {
                   />
                   <TextInput
                     placeholderTextColor="gray"
+                    onChangeText={(text) => this.txtChange("email", text)}
+                    value={email}
                     style={{
                       width: "85%",
                       height: 33,
@@ -771,11 +866,13 @@ const styles = StyleSheet.create({
     height: 35,
     backgroundColor: "#d2d3d5",
     borderWidth: 1,
+    borderRadius: 5,
     marginBottom: 5,
   },
   shopName: {
     width: "97%",
     height: 55,
+    borderRadius: 5,
     margin: 5,
     alignItems: "center",
     justifyContent: "center",
@@ -857,7 +954,7 @@ const styles = StyleSheet.create({
   },
   titlF: {
     borderWidth: 1,
-
+    borderRadius: 5,
     width: "97%",
     height: "80%",
     padding: 0,
@@ -918,6 +1015,7 @@ const styles = StyleSheet.create({
   },
   title: {
     borderWidth: 1,
+    borderRadius: 5,
     width: "65%",
     height: "90%",
     padding: 0,
@@ -931,6 +1029,7 @@ const styles = StyleSheet.create({
   productDetail: {
     borderColor: "gray",
     borderWidth: 1,
+    borderRadius: 5,
     width: "95%",
     paddingHorizontal: 20,
     height: 38,
@@ -939,6 +1038,7 @@ const styles = StyleSheet.create({
   productDetail1: {
     borderColor: "gray",
     borderWidth: 1,
+    borderRadius: 5,
     paddingLeft: 10,
     width: "95%",
     height: 38,
