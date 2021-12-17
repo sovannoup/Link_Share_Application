@@ -1,15 +1,11 @@
-import {connect} from 'react-redux'
+import { connect } from "react-redux";
 
-import screenOrder from '../Screens/ScreenOrder';
-import { s_information} from "../Modules/home/reducer";
-const mapStateToProps= state =>({
-    ...state
-})
+import screenOrder from "../Screens/ScreenOrder";
+import { f_get_product } from "../Modules/home/reducer";
+const mapStateToProps = (state) => ({
+  ...state,
+});
 const mapDispatchToProps = {
-    s_information
-    
-}
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps,
-)(screenOrder)
+  f_get_product,
+};
+export default connect(mapStateToProps, mapDispatchToProps)(screenOrder);

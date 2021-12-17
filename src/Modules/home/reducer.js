@@ -2,6 +2,7 @@ import { success, error, abort } from "redux-saga-requests";
 
 export const GET_HOME_TEM = "GET_HOME_TEM";
 export const ORDER_TEMPLATE = "ORDER_TEMPLATE";
+export const ORDER_PRODUCT = "ORDER_PRODUCT";
 
 export const f_get_home_tem = (payload) => ({
   type: GET_HOME_TEM,
@@ -11,6 +12,11 @@ export const f_orderTemplate = (payload) => ({
   type: ORDER_TEMPLATE,
   payload,
 });
+export const f_get_product = (payload) => ({
+  type: ORDER_PRODUCT,
+  payload,
+});
+
 const initialState = {
   pending: false,
   error: false,
@@ -54,6 +60,23 @@ const homeReducer = (state = initialState, action) => {
       return { ...state, error: true, pending: false, ...action.payload };
     }
     case abort(ORDER_TEMPLATE): {
+      return { ...state, pending: false };
+    }
+    //Start Order
+    case ORDER_PRODUCT: {
+      return { ...state, pending: true };
+    }
+    case success(ORDER_PRODUCT): {
+      return {
+        ...state,
+        ...action.payload,
+        pending: false,
+      };
+    }
+    case error(ORDER_PRODUCT): {
+      return { ...state, error: true, pending: false, ...action.payload };
+    }
+    case abort(ORDER_PRODUCT): {
       return { ...state, pending: false };
     }
 

@@ -264,8 +264,8 @@ const CoreNavigation = createStackNavigator(
     },
   },
   {
-    // initialRouteName: NAV_TYPES.TAB_BAR,
-    initialRouteName: NAV_TYPES.EDITTEMPLETE,
+    initialRouteName: NAV_TYPES.TAB_BAR,
+    // initialRouteName: NAV_TYPES.EDITTEMPLETE,
   }
 );
 

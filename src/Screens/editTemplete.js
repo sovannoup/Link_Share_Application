@@ -18,6 +18,7 @@ import IconF from "react-native-vector-icons/Feather";
 import ImagePicker from "react-native-image-crop-picker";
 /* import Slideshow from 'react-native-timed-slideshow'; */
 import Swiper from "react-native-web-swiper";
+import moment from "moment";
 
 export default class EditeTemplate extends Component {
   constructor(prop) {
@@ -72,6 +73,179 @@ export default class EditeTemplate extends Component {
       sixteenImg: "",
     };
   }
+  saveAndPreview = () => {
+    const {
+      title,
+      logoimage,
+      subtitle,
+      shopName,
+      messangerLink,
+      telegramLink,
+      address,
+      phonenumber,
+      email,
+
+      slider1,
+      slider2,
+      slider3,
+
+      proDetail1,
+      proDetail2,
+      proDetail3,
+
+      imgTxt6,
+      imgTxt7,
+      imgTxt8,
+
+      oriPrice,
+      disPrice,
+      percent_dis,
+
+      firstImg,
+      secImg,
+      thirdImg,
+      fourthImg,
+      fifthImg,
+
+      sixthImg,
+      sevenImg,
+      eightImg,
+
+      nineImg,
+      tenImg,
+
+      elevenImg,
+      twelveImg,
+      thirdteenImg,
+      fourteenImg,
+
+      fifteenImg,
+      sixteenImg,
+    } = this.state;
+    var data = {
+      toProduct: {
+        temId: 1,
+        temImage: "images_data_Web Devs.jpeg",
+        productLink: "https://stackoverflow.com/questions/",
+        date: moment().format("YYYY/MM/DD-HH:mm:ss"),
+        proId: 1,
+      },
+      toProductInfo: {
+        logo: logoimage,
+        title: title,
+        subtitle: subtitle,
+        messanger: messangerLink,
+        telegram: telegramLink,
+        address: address,
+        phonenumber: phonenumber,
+        email: email,
+      },
+      toSlideImg: [
+        {
+          slideImg: slider1,
+          sliderOrder: 1,
+        },
+        {
+          slideImg: slider2,
+          sliderOrder: 2,
+        },
+        {
+          slideImg: slider3,
+          sliderOrder: 3,
+        },
+      ],
+      toPrice: {
+        oriPrice: oriPrice,
+        disPrice: disPrice,
+        disPercent: percent_dis,
+      },
+      toDetailTxt: [
+        {
+          text: proDetail1,
+          textOrder: 1,
+        },
+        {
+          text: proDetail2,
+          textOrder: 2,
+        },
+        {
+          text: proDetail3,
+          textOrder: 3,
+        },
+      ],
+      toImgTxt: [
+        {
+          image: sixthImg,
+          text: imgTxt6,
+        },
+        {
+          image: sevenImg,
+          text: imgTxt7,
+        },
+        {
+          image: eightImg,
+          text: imgTxt8,
+        },
+      ],
+      toProductImg: [
+        {
+          image: firstImg,
+          id: 1,
+        },
+        {
+          image: secImg,
+          id: 2,
+        },
+        {
+          image: thirdImg,
+          id: 3,
+        },
+        {
+          image: fourthImg,
+          id: 4,
+        },
+        {
+          image: fifthImg,
+          id: 5,
+        },
+        {
+          image: nineImg,
+          id: 9,
+        },
+        {
+          image: tenImg,
+          id: 10,
+        },
+        {
+          image: elevenImg,
+          id: 11,
+        },
+        {
+          image: twelveImg,
+          id: 12,
+        },
+        {
+          image: thirdteenImg,
+          id: 13,
+        },
+        {
+          image: fifteenImg,
+          id: 14,
+        },
+        {
+          image: fifteenImg,
+          id: 15,
+        },
+        {
+          image: sixteenImg,
+          id: 16,
+        },
+      ],
+    };
+    console.log("done");
+    this.props.f_saveAndPreview(data);
+    // NavigationService.navigate(NAV_TYPES.SAVE)
+  };
   txtChange = (key, value) => {
     this.setState({ [key]: value });
   };
@@ -822,7 +996,7 @@ export default class EditeTemplate extends Component {
         </ScrollView>
         <TouchableOpacity
           style={styles.btn}
-          onPress={() => NavigationService.navigate(NAV_TYPES.SAVE)}
+          onPress={() => this.saveAndPreview()}
         >
           <Text style={{ color: "white", fontWeight: "bold", fontSize: 23 }}>
             Save and Preview

@@ -7,6 +7,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import AllProduct from "../component/AllProduct";
 import OrderProduct from "../component/OrderProduct";
 import Cart from "../component/Edited";
+import { IMG_URL } from "../Modules/app/config";
 
 export default class ScreenOrder extends Component {
   constructor(prop) {
@@ -14,6 +15,9 @@ export default class ScreenOrder extends Component {
     this.state = {
       stateName: "All",
       index: 0,
+      allOrderedProduct: [],
+      orderingProduct: [],
+      cancelProduct: [],
     };
   }
   _CallGet(index, title) {
@@ -21,7 +25,7 @@ export default class ScreenOrder extends Component {
       return;
     }
     this.setState({
-      titleLable: title,
+      stateName: title,
       index: index,
     });
   }
@@ -47,21 +51,58 @@ export default class ScreenOrder extends Component {
     }
     return rs;
   }
+
   componentDidMount() {
-    // this.props.s_information();
-    //console.log('home oder ><><><><><><><><>>>>>>>>>>>',this.props)
-    // BackHandler.addEventListener('hardwareBackPress', this.disabledBackAndroid);
-    const { navigation } = this.props;
-    var infoPage = navigation.getParam("id", false);
-    this.setState({ templateId: infoPage });
-    console.log(")()()()()()()()()()(", infoPage);
+    this.props.f_get_product();
+    // const { navigation } = this.props;
+    // var infoPage = navigation.getParam("id", false);
+    // this.setState({ templateId: infoPage });
   }
+  UNSAFE_componentWillReceiveProps = (nextProps) => {
+    const { home } = this.props;
+
+    if (
+      nextProps.home.r_orderPro &&
+      nextProps.home.r_orderPro != home.r_orderPro
+    ) {
+      if (nextProps.home.r_orderPro.message === "success") {
+        var all = [];
+        var ordering = [];
+        var cancel = [];
+        var arrProduct = nextProps.home.r_orderPro.data;
+        for (let index = 0; index < arrProduct.length; index++) {
+          const element = nextProps.home.r_orderPro.data[index];
+          all.push({
+            ...element,
+            url: IMG_URL + element.temImage,
+          });
+          if (element.orderApproved === 1) {
+            ordering.push({
+              ...element,
+              url: IMG_URL + element.temImage,
+            });
+          } else {
+            cancel.push({
+              ...element,
+              url: IMG_URL + element.temImage,
+            });
+          }
+        }
+        this.setState({
+          allOrderedProduct: all,
+          orderingProduct: ordering,
+          cancelProduct: cancel,
+        });
+      }
+    }
+  };
   render() {
     const TAB = [
       { index: 1, title: "All" },
       { index: 2, title: "Order" },
       { index: 2, title: "Cancel" },
     ];
+    const { allOrderedProduct, orderingProduct, cancelProduct } = this.state;
     return (
       <View style={{ flex: 1, backgroundColor: "red" }}>
         <View style={styles.OrderBtn}>{this._loopTab(TAB)}</View>
@@ -69,69 +110,143 @@ export default class ScreenOrder extends Component {
           showsVerticalScrollIndicator={false}
           style={styles.container}
         >
-          {/*  <View style={styles.header}>
-                    
-                </View> */}
-
           <View style={styles.products}>
-            {this.state.stateName === "All" && (
-              <TouchableOpacity style={styles.productBox}>
-                <Image
-                  resizeMode={"cover"}
-                  style={styles.imgStyle}
-                  source={require("../Assets/img.jpg")}
-                />
-                <View style={{ flexDirection: "column", paddingLeft: 10 }}>
-                  <Text style={{ fontSize: 15 }}></Text>
-                  <Text
-                    style={{
-                      fontSize: 15,
-                      marginVertical: "8%",
-                      marginBottom: "20%",
-                    }}
-                  ></Text>
-                </View>
-              </TouchableOpacity>
-            )}
+            {this.state.stateName === "All" &&
+              allOrderedProduct.map((item, index) => {
+                return (
+                  <TouchableOpacity key={index} style={styles.productBox}>
+                    <Image
+                      resizeMode={"cover"}
+                      style={styles.imgStyle}
+                      source={require("../Assets/img.jpg")}
+                    />
+                    <View style={{ flexDirection: "column", paddingLeft: 10 }}>
+                      <Text style={{ fontSize: 15, fontWeight: "bold" }}>
+                        {item.proTitle}
+                      </Text>
+                      <Text
+                        style={{
+                          fontSize: 15,
+                          marginTop: 5,
+                        }}
+                      >
+                        Price: {item.proPrice}$
+                      </Text>
+                      <View
+                        style={{
+                          width: "70%",
+                          justifyContent: "space-between",
+                          display: "flex",
+                          flexDirection: "row",
+                        }}
+                      >
+                        <Text
+                          style={{
+                            fontSize: 15,
+                            marginTop: 5,
+                          }}
+                        >
+                          Qty: {item.proQty}$
+                        </Text>
+                        <Text style={{ fontSize: 15, fontWeight: "bold" }}>
+                          Total: {item.proPrice * item.proQty}
+                        </Text>
+                      </View>
+                    </View>
+                  </TouchableOpacity>
+                );
+              })}
 
-            {this.state.stateName === "Order" && (
-              <TouchableOpacity style={styles.productBox}>
-                <Image
-                  resizeMode={"cover"}
-                  style={styles.imgStyle}
-                  source={require("../Assets/img.jpg")}
-                />
-                <View style={{ flexDirection: "column", paddingLeft: 10 }}>
-                  <Text style={{ fontSize: 15 }}></Text>
-                  <Text
-                    style={{
-                      fontSize: 15,
-                      marginVertical: "8%",
-                      marginBottom: "20%",
-                    }}
-                  ></Text>
-                </View>
-              </TouchableOpacity>
-            )}
-            {this.state.stateName === "Cancel" && (
-              <TouchableOpacity style={styles.productBox}>
-                <Image
-                  resizeMode={"cover"}
-                  style={styles.imgStyle}
-                  source={require("../Assets/img.jpg")}
-                />
-                <View style={{ flexDirection: "column", paddingLeft: 10 }}>
-                  <Text style={{ fontSize: 15 }}></Text>
-                  <Text
-                    style={{
-                      fontSize: 15,
-                      marginVertical: "8%",
-                      marginBottom: "20%",
-                    }}
-                  ></Text>
-                </View>
-              </TouchableOpacity>
-            )}
+            {this.state.stateName === "Order" &&
+              orderingProduct.map((item, index) => {
+                return (
+                  <TouchableOpacity key={index} style={styles.productBox}>
+                    <Image
+                      resizeMode={"cover"}
+                      style={styles.imgStyle}
+                      source={require("../Assets/img.jpg")}
+                    />
+                    <View style={{ flexDirection: "column", paddingLeft: 10 }}>
+                      <Text style={{ fontSize: 15, fontWeight: "bold" }}>
+                        {item.proTitle}
+                      </Text>
+                      <Text
+                        style={{
+                          fontSize: 15,
+                          marginTop: 5,
+                        }}
+                      >
+                        Price: {item.proPrice}$
+                      </Text>
+                      <View
+                        style={{
+                          width: "70%",
+                          justifyContent: "space-between",
+                          display: "flex",
+                          flexDirection: "row",
+                        }}
+                      >
+                        <Text
+                          style={{
+                            fontSize: 15,
+                            marginTop: 5,
+                          }}
+                        >
+                          Qty: {item.proQty}$
+                        </Text>
+                        <Text style={{ fontSize: 15, fontWeight: "bold" }}>
+                          Total: {item.proPrice * item.proQty}
+                        </Text>
+                      </View>
+                    </View>
+                  </TouchableOpacity>
+                );
+              })}
+            {this.state.stateName === "Cancel" &&
+              cancelProduct.map((item, index) => {
+                return (
+                  <TouchableOpacity key={index} style={styles.productBox}>
+                    <Image
+                      resizeMode={"cover"}
+                      style={styles.imgStyle}
+                      source={require("../Assets/img.jpg")}
+                    />
+                    <View style={{ flexDirection: "column", paddingLeft: 10 }}>
+                      <Text style={{ fontSize: 15, fontWeight: "bold" }}>
+                        {item.proTitle}
+                      </Text>
+                      <Text
+                        style={{
+                          fontSize: 15,
+                          marginTop: 5,
+                        }}
+                      >
+                        Price: {item.proPrice}$
+                      </Text>
+                      <View
+                        style={{
+                          width: "70%",
+                          justifyContent: "space-between",
+                          display: "flex",
+                          flexDirection: "row",
+                        }}
+                      >
+                        <Text
+                          style={{
+                            fontSize: 15,
+                            marginTop: 5,
+                          }}
+                        >
+                          Qty: {item.proQty}$
+                        </Text>
+                        <Text style={{ fontSize: 15, fontWeight: "bold" }}>
+                          Total: {item.proPrice * item.proQty}
+                        </Text>
+                      </View>
+                    </View>
+                  </TouchableOpacity>
+                );
+              })}
           </View>
         </ScrollView>
       </View>

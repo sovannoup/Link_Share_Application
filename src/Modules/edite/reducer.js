@@ -1,11 +1,17 @@
 import { success, error, abort } from "redux-saga-requests";
 
 export const GET_BOUGHT_TEMPLATE = "GET_BOUGHT_TEMPLATE";
+export const SAVE_PREVIEW = "SAVE_PREVIEW";
 
 export const f_getB_template = (payload) => ({
   type: GET_BOUGHT_TEMPLATE,
   payload,
 });
+export const f_saveAndPreview = (payload) => ({
+  type: SAVE_PREVIEW,
+  payload,
+});
+
 const initialState = {
   pending: false,
   error: false,
@@ -31,6 +37,23 @@ const editeReducer = (state = initialState, action) => {
       return { ...state, error: true, pending: false, ...action.payload };
     }
     case abort(GET_BOUGHT_TEMPLATE): {
+      return { ...state, pending: false };
+    }
+    //SAVE_PREVIEW
+    case SAVE_PREVIEW: {
+      return { ...state, pending: true };
+    }
+    case success(SAVE_PREVIEW): {
+      return {
+        ...state,
+        ...action.payload,
+        pending: false,
+      };
+    }
+    case error(SAVE_PREVIEW): {
+      return { ...state, error: true, pending: false, ...action.payload };
+    }
+    case abort(SAVE_PREVIEW): {
       return { ...state, pending: false };
     }
 

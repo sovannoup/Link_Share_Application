@@ -1,8 +1,8 @@
 import { connect } from "react-redux";
 import EditeTemplate from "../Screens/editTemplete";
-//import { getTest } from "../Modules/login/reducer";
+import { f_saveAndPreview } from "../Modules/edite/reducer";
 const mapStateToProps = (state) => ({
   ...state,
 });
-const mapDispatchToProps = {};
+const mapDispatchToProps = { f_saveAndPreview };
 export default connect(mapStateToProps, mapDispatchToProps)(EditeTemplate);
