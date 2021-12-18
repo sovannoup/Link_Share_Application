@@ -125,7 +125,7 @@ export default class EditeTemplate extends Component {
     var data = {
       toProduct: {
         temId: 1,
-        temImage: "images_data_Web Devs.jpeg",
+        temImage: logoimage,
         productLink: "https://stackoverflow.com/questions/",
         date: moment().format("YYYY/MM/DD-HH:mm:ss"),
         proId: 1,
@@ -250,17 +250,47 @@ export default class EditeTemplate extends Component {
     this.setState({ [key]: value });
   };
 
-  selectImages(key) {
+  selectImages(type) {
     ImagePicker.openPicker({
-      cropping: true,
+      forceJpg: true,
+      // width: widthImage,
+      // height: heightImage,
       includeBase64: true,
-    }).then((image) => {
-      // console.log(image);
-      const _data = "data:image/png;base64," + image.data;
-      this.setState({
-        [key]: _data,
+      mediaType: "photo",
+      compressImageQuality: 1,
+    })
+      .then((image) => {
+        if (image) {
+          ImagePicker.openCropper({
+            // width: widthImage,
+            // height: heightImage,
+            path: image.path,
+            includeBase64: true,
+            mediaType: "photo",
+            forceJpg: true,
+            compressImageQuality: 1,
+          })
+            .then((img) => {
+              this.setState({
+                [type]: img,
+              });
+            })
+            .catch((e) => {
+              if (e.code === "E_PICKER_CANCELLED") {
+                alert("User Error cancel");
+              } else {
+                alert("no image");
+              }
+            });
+        }
+      })
+      .catch((e) => {
+        if (e.code === "E_PICKER_CANCELLED") {
+          // alert('User Error cancel')
+          return false;
+        }
+        // console.log('error image profile',e)
       });
-    });
   }
 
   render() {
@@ -336,7 +366,9 @@ export default class EditeTemplate extends Component {
                   style={{ width: "100%", height: "100%" }}
                   source={
                     logoimage
-                      ? { uri: logoimage }
+                      ? {
+                          uri: `data:image/png;base64,${this.state.logoimage["data"]}`,
+                        }
                       : require("./../Assets/Images/loo.jpg")
                   }
                 />
@@ -360,7 +392,9 @@ export default class EditeTemplate extends Component {
                       style={{ width: "100%", height: "100%" }}
                       source={
                         slider1
-                          ? { uri: slider1 }
+                          ? {
+                              uri: `data:image/png;base64,${this.state.slider1["data"]}`,
+                            }
                           : require("./../Assets/Images/blank.jpg")
                       }
                     />
@@ -376,7 +410,9 @@ export default class EditeTemplate extends Component {
                       style={{ width: "100%", height: "100%" }}
                       source={
                         slider2
-                          ? { uri: slider2 }
+                          ? {
+                              uri: `data:image/png;base64,${this.state.slider2["data"]}`,
+                            }
                           : require("./../Assets/Images/blank.jpg")
                       }
                     />
@@ -391,7 +427,9 @@ export default class EditeTemplate extends Component {
                       style={{ width: "100%", height: "100%" }}
                       source={
                         slider3
-                          ? { uri: slider3 }
+                          ? {
+                              uri: `data:image/png;base64,${this.state.slider3["data"]}`,
+                            }
                           : require("./../Assets/Images/blank.jpg")
                       }
                     />
@@ -524,7 +562,9 @@ export default class EditeTemplate extends Component {
                   style={{ width: "100%", height: "100%" }}
                   source={
                     firstImg
-                      ? { uri: firstImg }
+                      ? {
+                          uri: `data:image/png;base64,${this.state.firstImg["data"]}`,
+                        }
                       : require("./../Assets/Images/blank.jpg")
                   }
                 />
@@ -540,7 +580,9 @@ export default class EditeTemplate extends Component {
                     style={styles.logo}
                     source={
                       secImg
-                        ? { uri: secImg }
+                        ? {
+                            uri: `data:image/png;base64,${this.state.secImg["data"]}`,
+                          }
                         : require("./../Assets/Images/blank.jpg")
                     }
                   />
@@ -555,7 +597,9 @@ export default class EditeTemplate extends Component {
                     style={styles.logo}
                     source={
                       thirdImg
-                        ? { uri: thirdImg }
+                        ? {
+                            uri: `data:image/png;base64,${this.state.thirdImg["data"]}`,
+                          }
                         : require("./../Assets/Images/blank.jpg")
                     }
                   />
@@ -570,7 +614,9 @@ export default class EditeTemplate extends Component {
                     style={styles.logo}
                     source={
                       fourthImg
-                        ? { uri: fourthImg }
+                        ? {
+                            uri: `data:image/png;base64,${this.state.fourthImg["data"]}`,
+                          }
                         : require("./../Assets/Images/blank.jpg")
                     }
                   />
@@ -585,7 +631,9 @@ export default class EditeTemplate extends Component {
                     style={styles.logo}
                     source={
                       fifthImg
-                        ? { uri: fifthImg }
+                        ? {
+                            uri: `data:image/png;base64,${this.state.fifthImg["data"]}`,
+                          }
                         : require("./../Assets/Images/blank.jpg")
                     }
                   />
@@ -628,7 +676,9 @@ export default class EditeTemplate extends Component {
                       style={{ width: "100%", height: "100%" }}
                       source={
                         sixthImg
-                          ? { uri: sixthImg }
+                          ? {
+                              uri: `data:image/png;base64,${this.state.sixthImg["data"]}`,
+                            }
                           : require("./../Assets/Images/blank.jpg")
                       }
                     />
@@ -666,7 +716,9 @@ export default class EditeTemplate extends Component {
                       style={{ width: "100%", height: "100%" }}
                       source={
                         sevenImg
-                          ? { uri: sevenImg }
+                          ? {
+                              uri: `data:image/png;base64,${this.state.sevenImg["data"]}`,
+                            }
                           : require("./../Assets/Images/blank.jpg")
                       }
                     />
@@ -704,7 +756,9 @@ export default class EditeTemplate extends Component {
                       style={{ width: "100%", height: "100%" }}
                       source={
                         eightImg
-                          ? { uri: eightImg }
+                          ? {
+                              uri: `data:image/png;base64,${this.state.eightImg["data"]}`,
+                            }
                           : require("./../Assets/Images/blank.jpg")
                       }
                     />
@@ -751,7 +805,9 @@ export default class EditeTemplate extends Component {
                   style={{ width: "100%", height: "100%" }}
                   source={
                     nineImg
-                      ? { uri: nineImg }
+                      ? {
+                          uri: `data:image/png;base64,${this.state.nineImg["data"]}`,
+                        }
                       : require("./../Assets/Images/blank.jpg")
                   }
                 />
@@ -767,7 +823,9 @@ export default class EditeTemplate extends Component {
                   style={{ width: "100%", height: "100%" }}
                   source={
                     tenImg
-                      ? { uri: tenImg }
+                      ? {
+                          uri: `data:image/png;base64,${this.state.tenImg["data"]}`,
+                        }
                       : require("./../Assets/Images/blank.jpg")
                   }
                 />
@@ -792,7 +850,9 @@ export default class EditeTemplate extends Component {
                     style={{ width: "100%", height: "100%" }}
                     source={
                       elevenImg
-                        ? { uri: elevenImg }
+                        ? {
+                            uri: `data:image/png;base64,${this.state.elevenImg["data"]}`,
+                          }
                         : require("./../Assets/Images/blank.jpg")
                     }
                   />
@@ -807,7 +867,9 @@ export default class EditeTemplate extends Component {
                     style={{ width: "100%", height: "100%" }}
                     source={
                       twelveImg
-                        ? { uri: twelveImg }
+                        ? {
+                            uri: `data:image/png;base64,${this.state.twelveImg["data"]}`,
+                          }
                         : require("./../Assets/Images/blank.jpg")
                     }
                   />
@@ -832,7 +894,9 @@ export default class EditeTemplate extends Component {
                     style={{ width: "100%", height: "100%" }}
                     source={
                       thirdteenImg
-                        ? { uri: thirdteenImg }
+                        ? {
+                            uri: `data:image/png;base64,${this.state.thirdteenImg["data"]}`,
+                          }
                         : require("./../Assets/Images/blank.jpg")
                     }
                   />
@@ -847,7 +911,9 @@ export default class EditeTemplate extends Component {
                     style={{ width: "100%", height: "100%" }}
                     source={
                       fourteenImg
-                        ? { uri: fourteenImg }
+                        ? {
+                            uri: `data:image/png;base64,${this.state.fourteenImg["data"]}`,
+                          }
                         : require("./../Assets/Images/blank.jpg")
                     }
                   />
@@ -864,7 +930,9 @@ export default class EditeTemplate extends Component {
                   style={{ width: "100%", height: "100%" }}
                   source={
                     fifteenImg
-                      ? { uri: fifteenImg }
+                      ? {
+                          uri: `data:image/png;base64,${this.state.fifteenImg["data"]}`,
+                        }
                       : require("./../Assets/Images/blank.jpg")
                   }
                 />
@@ -881,7 +949,9 @@ export default class EditeTemplate extends Component {
                   style={{ width: "100%", height: "100%" }}
                   source={
                     sixteenImg
-                      ? { uri: sixteenImg }
+                      ? {
+                          uri: `data:image/png;base64,${this.state.sixteenImg["data"]}`,
+                        }
                       : require("./../Assets/Images/blank.jpg")
                   }
                 />
