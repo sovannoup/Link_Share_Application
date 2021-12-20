@@ -19,6 +19,8 @@ import com.reactnativecommunity.clipboard.ClipboardPackage;
 import org.reactnative.maskedview.RNCMaskedViewPackage;
 // lottie-react-native
 import com.airbnb.android.react.lottie.LottiePackage;
+// react-native-fetch-blob
+import com.RNFetchBlob.RNFetchBlobPackage;
 // react-native-gesture-handler
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 // react-native-image-base64
@@ -88,6 +90,7 @@ public class PackageList {
       new ClipboardPackage(),
       new RNCMaskedViewPackage(),
       new LottiePackage(),
+      new RNFetchBlobPackage(),
       new RNGestureHandlerPackage(),
       new RNImgToBase64Package(),
       new PickerPackage(),

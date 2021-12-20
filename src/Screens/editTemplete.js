@@ -73,6 +73,19 @@ export default class EditeTemplate extends Component {
       sixteenImg: "",
     };
   }
+  UNSAFE_componentWillReceiveProps = (nextProps) => {
+    const { edit } = this.props;
+    // console.log(nextProps.edit.r_saveAndPreview);
+    if (
+      nextProps.edit.r_saveAndPreview &&
+      nextProps.edit.r_saveAndPreview != edit.r_saveAndPreview
+    ) {
+      if (nextProps.edit.r_saveAndPreview.message === "success") {
+        console.log("YEHHHHHH WE DID IT.....!!!!");
+        alert("WE DID IT.........!!!");
+      }
+    }
+  };
   saveAndPreview = () => {
     const {
       title,
@@ -133,115 +146,241 @@ export default class EditeTemplate extends Component {
       toProductInfo: {
         logo: logoimage,
         title: title,
-        subtitle: subtitle,
-        messanger: messangerLink,
-        telegram: telegramLink,
-        address: address,
-        phonenumber: phonenumber,
-        email: email,
+        subtitle: title,
+        messanger: title,
+        telegram: title,
+        address: title,
+        phonenumber: title,
+        email: title,
       },
       toSlideImg: [
         {
-          slideImg: slider1,
+          slideImg: logoimage,
           sliderOrder: 1,
         },
         {
-          slideImg: slider2,
+          slideImg: logoimage,
           sliderOrder: 2,
         },
         {
-          slideImg: slider3,
+          slideImg: logoimage,
           sliderOrder: 3,
         },
       ],
       toPrice: {
-        oriPrice: oriPrice,
-        disPrice: disPrice,
-        disPercent: percent_dis,
+        oriPrice: title,
+        disPrice: title,
+        disPercent: title,
       },
       toDetailTxt: [
         {
-          text: proDetail1,
+          text: title,
           textOrder: 1,
         },
         {
-          text: proDetail2,
+          text: title,
           textOrder: 2,
         },
         {
-          text: proDetail3,
+          text: title,
           textOrder: 3,
         },
       ],
       toImgTxt: [
         {
-          image: sixthImg,
-          text: imgTxt6,
+          image: logoimage,
+          text: title,
+          id: 6,
         },
         {
-          image: sevenImg,
-          text: imgTxt7,
+          image: logoimage,
+          text: title,
+          id: 7,
         },
         {
-          image: eightImg,
-          text: imgTxt8,
+          image: logoimage,
+          text: title,
+          id: 8,
         },
       ],
       toProductImg: [
         {
-          image: firstImg,
+          image: logoimage,
           id: 1,
         },
         {
-          image: secImg,
+          image: logoimage,
           id: 2,
         },
         {
-          image: thirdImg,
+          image: logoimage,
           id: 3,
         },
         {
-          image: fourthImg,
+          image: logoimage,
           id: 4,
         },
         {
-          image: fifthImg,
+          image: logoimage,
           id: 5,
         },
         {
-          image: nineImg,
+          image: logoimage,
           id: 9,
         },
         {
-          image: tenImg,
+          image: logoimage,
           id: 10,
         },
         {
-          image: elevenImg,
+          image: logoimage,
           id: 11,
         },
         {
-          image: twelveImg,
+          image: logoimage,
           id: 12,
         },
         {
-          image: thirdteenImg,
+          image: logoimage,
           id: 13,
         },
         {
-          image: fifteenImg,
+          image: logoimage,
           id: 14,
         },
         {
-          image: fifteenImg,
+          image: logoimage,
           id: 15,
         },
         {
-          image: sixteenImg,
+          image: logoimage,
           id: 16,
         },
       ],
     };
+    // var data = {
+    //   toProduct: {
+    //     temId: 1,
+    //     temImage: logoimage,
+    //     productLink: "https://stackoverflow.com/questions/",
+    //     date: moment().format("YYYY/MM/DD-HH:mm:ss"),
+    //     proId: 1,
+    //   },
+    //   toProductInfo: {
+    //     logo: logoimage,
+    //     title: title,
+    //     subtitle: subtitle,
+    //     messanger: messangerLink,
+    //     telegram: telegramLink,
+    //     address: address,
+    //     phonenumber: phonenumber,
+    //     email: email,
+    //   },
+    //   toSlideImg: [
+    //     {
+    //       slideImg: slider1,
+    //       sliderOrder: 1,
+    //     },
+    //     {
+    //       slideImg: slider2,
+    //       sliderOrder: 2,
+    //     },
+    //     {
+    //       slideImg: slider3,
+    //       sliderOrder: 3,
+    //     },
+    //   ],
+    //   toPrice: {
+    //     oriPrice: oriPrice,
+    //     disPrice: disPrice,
+    //     disPercent: percent_dis,
+    //   },
+    //   toDetailTxt: [
+    //     {
+    //       text: proDetail1,
+    //       textOrder: 1,
+    //     },
+    //     {
+    //       text: proDetail2,
+    //       textOrder: 2,
+    //     },
+    //     {
+    //       text: proDetail3,
+    //       textOrder: 3,
+    //     },
+    //   ],
+    //   toImgTxt: [
+    //     {
+    //       image: sixthImg,
+    //       text: imgTxt6,
+    //       id: 6,
+    //     },
+    //     {
+    //       image: sevenImg,
+    //       text: imgTxt7,
+    //       id: 7,
+    //     },
+    //     {
+    //       image: eightImg,
+    //       text: imgTxt8,
+    //       id: 8,
+    //     },
+    //   ],
+    //   toProductImg: [
+    //     {
+    //       image: firstImg,
+    //       id: 1,
+    //     },
+    //     {
+    //       image: secImg,
+    //       id: 2,
+    //     },
+    //     {
+    //       image: thirdImg,
+    //       id: 3,
+    //     },
+    //     {
+    //       image: fourthImg,
+    //       id: 4,
+    //     },
+    //     {
+    //       image: fifthImg,
+    //       id: 5,
+    //     },
+    //     {
+    //       image: nineImg,
+    //       id: 9,
+    //     },
+    //     {
+    //       image: tenImg,
+    //       id: 10,
+    //     },
+    //     {
+    //       image: elevenImg,
+    //       id: 11,
+    //     },
+    //     {
+    //       image: twelveImg,
+    //       id: 12,
+    //     },
+    //     {
+    //       image: thirdteenImg,
+    //       id: 13,
+    //     },
+    //     {
+    //       image: fifteenImg,
+    //       id: 14,
+    //     },
+    //     {
+    //       image: fifteenImg,
+    //       id: 15,
+    //     },
+    //     {
+    //       image: sixteenImg,
+    //       id: 16,
+    //     },
+    //   ],
+    // };
     console.log("done");
     this.props.f_saveAndPreview(data);
     // NavigationService.navigate(NAV_TYPES.SAVE)
