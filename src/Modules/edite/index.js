@@ -5,7 +5,7 @@ import nomalize from "../../Utils/normiliseServerResponce";
 import { GET_BOUGHT_TEMPLATE, SAVE_PREVIEW } from "./reducer";
 import normalize from "../../Utils/normiliseServerResponce";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { object } from "prop-types";
+import { object, string } from "prop-types";
 import { API_URL } from "../app/config";
 import RNFetchBlob from "react-native-fetch-blob";
 
@@ -29,100 +29,45 @@ export function* TemplateWorker({ payload }) {
 export function* saveAndPreviewWorker({ payload }) {
   try {
     var body = [];
-    var konBody = {};
+    var konBody = [];
+    var sec = {};
+    var innerArr = [];
     var success_ = false;
     var dataError = {};
     var dataRes = {};
     var authDataString = yield AsyncStorage.getItem("@loginToken");
     const authData = yield JSON.parse(authDataString);
     for (var key in payload) {
-      if (
-        key === "toSlideImg" ||
-        key === "toDetailTxt" ||
-        key === "toImgTxt" ||
-        key === "toProductImg"
-      ) {
-        var eachKeyObj = [];
-        for (var child in payload[key]) {
-          var konBongObj = {};
-          var secArr = [];
-          var obj = {};
-          for (var keyInArray in payload[key][child]) {
-            // console.log("key in arr ", keyInArray);
-            if (keyInArray === "slideImg" || keyInArray === "image") {
-              // console.log("data: ", payload[key][child][keyInArray]);
-              Object.assign(obj, {
-                name: String(keyInArray),
-                filename: payload[key][child][keyInArray].path.substring(
-                  payload[key][child][keyInArray].path.lastIndexOf("/") + 1
-                ),
-                type: payload[key][child][keyInArray].mime,
-                data: String(
-                  RNFetchBlob.wrap(payload[key][child][keyInArray].path)
-                ),
-              });
-            } else {
-              Object.assign(obj, {
-                name: String(keyInArray),
-                data: String(payload[key][child][keyInArray]),
-              });
-            }
-            secArr.push(obj);
-            // console.log("array is ", secArr);
-            obj = {};
-          }
-          Object.assign(konBody, secArr);
-          Object.assign(konBongObj, {
-            key: konBody,
-          });
-          secArr = [];
-          // console.log("kon  body is ", konBody);
-        }
+      if (key.startsWith("image")) {
+        // console.log("child  is: ", key);
+        body.push({
+          name: String(key),
+          filename: payload[key].path.substring(
+            payload[key].path.lastIndexOf("/") + 1
+          ),
+          type: payload[key].mime,
+          data: String(RNFetchBlob.wrap(payload[key].path)),
+        });
+        //
       } else {
-        var smallObj = {};
-        for (var child in payload[key]) {
-          // console.log("child", child);
-          if (child === "logo" || child === "temImage") {
-            // console.log("child", child, "path", payload[key][child].path);
-            Object.assign(smallObj, {
-              name: String(child),
-              filename: payload[key][child].path.substring(
-                payload[key][child].path.lastIndexOf("/") + 1
-              ),
-              type: payload[key][child].mime,
-              data: String(RNFetchBlob.wrap(payload[key][child].path)),
-            });
-            // console.log("small obj IMAGE ", smallObj);
-          } else {
-            Object.assign(smallObj, {
-              name: String(child),
-              data: String(payload[key][child]),
-            });
-            // console.log("small obj is ", smallObj);
-          }
-          Object.assign(konBody, smallObj);
-          smallObj = {};
-        }
-        Object.assign(konBongObj, {
-          key: konBody,
+        body.push({
+          name: String(key),
+          data: String(payload[key]),
         });
       }
-      body.push(konBongObj);
-      konBody = [];
-      // console.log("body is : ", body);
-      // console.log("kon element is : ", konBody);
     }
 
     console.log("Body", body);
-
+    // console.log("auth", authData.token);
     yield RNFetchBlob.fetch(
       "POST",
       `${API_URL}/myServer/product/saveEdited`,
       {
         Authorization: `Bearer ${authData.token}`,
         "Content-Type": "multipart/form-data",
+        Boundary: "form-data",
       },
-      JSON.stringify(body)
+      body
     )
       .then((res) => {
         console.log(nomalize(res));

@@ -136,128 +136,51 @@ export default class EditeTemplate extends Component {
       sixteenImg,
     } = this.state;
     var data = {
-      toProduct: {
-        temId: 1,
-        temImage: logoimage,
-        productLink: "https://stackoverflow.com/questions/",
-        date: moment().format("YYYY/MM/DD-HH:mm:ss"),
-        proId: 1,
-      },
-      toProductInfo: {
-        logo: logoimage,
-        title: title,
-        subtitle: title,
-        messanger: title,
-        telegram: title,
-        address: title,
-        phonenumber: title,
-        email: title,
-      },
-      toSlideImg: [
-        {
-          slideImg: logoimage,
-          sliderOrder: 1,
-        },
-        {
-          slideImg: logoimage,
-          sliderOrder: 2,
-        },
-        {
-          slideImg: logoimage,
-          sliderOrder: 3,
-        },
+      temId: 1,
+      imageTem: logoimage,
+      productLink: "https://stackoverflow.com/questions/",
+      date: moment().format("YYYY/MM/DD-HH:mm:ss"),
+      proId: 1,
+      imageLogo: logoimage,
+      title: title,
+      subtitle: title,
+      messanger: title,
+      telegram: title,
+      address: title,
+      phonenumber: title,
+      email: title,
+      oriPrice: title,
+      disPrice: title,
+      disPercent: title,
+      toImageSlider: [
+        { imageSlider: logoimage, id: 1 },
+        { imageSlider: logoimage, id: 2 },
+        { imageSlider: logoimage, id: 3 },
       ],
-      toPrice: {
-        oriPrice: title,
-        disPrice: title,
-        disPercent: title,
-      },
-      toDetailTxt: [
-        {
-          text: title,
-          textOrder: 1,
-        },
-        {
-          text: title,
-          textOrder: 2,
-        },
-        {
-          text: title,
-          textOrder: 3,
-        },
-      ],
-      toImgTxt: [
-        {
-          image: logoimage,
-          text: title,
-          id: 6,
-        },
-        {
-          image: logoimage,
-          text: title,
-          id: 7,
-        },
-        {
-          image: logoimage,
-          text: title,
-          id: 8,
-        },
-      ],
-      toProductImg: [
-        {
-          image: logoimage,
-          id: 1,
-        },
-        {
-          image: logoimage,
-          id: 2,
-        },
-        {
-          image: logoimage,
-          id: 3,
-        },
-        {
-          image: logoimage,
-          id: 4,
-        },
-        {
-          image: logoimage,
-          id: 5,
-        },
-        {
-          image: logoimage,
-          id: 9,
-        },
-        {
-          image: logoimage,
-          id: 10,
-        },
-        {
-          image: logoimage,
-          id: 11,
-        },
-        {
-          image: logoimage,
-          id: 12,
-        },
-        {
-          image: logoimage,
-          id: 13,
-        },
-        {
-          image: logoimage,
-          id: 14,
-        },
-        {
-          image: logoimage,
-          id: 15,
-        },
-        {
-          image: logoimage,
-          id: 16,
-        },
+      textImage1: title,
+      textImage2: title,
+      textImage3: title,
+      title1: title,
+      title2: title,
+      title3: title,
+
+      toOtherImage: [
+        { image: logoimage, id: 1 },
+        { image: logoimage, id: 2 },
+        { image: logoimage, id: 3 },
+        { image: logoimage, id: 4 },
+        { image: logoimage, id: 5 },
+        { image: logoimage, id: 9 },
+        { image: logoimage, id: 10 },
+        { image: logoimage, id: 11 },
+        { image: logoimage, id: 12 },
+        { image: logoimage, id: 13 },
+        { image: logoimage, id: 14 },
+        { image: logoimage, id: 15 },
+        { image: logoimage, id: 16 },
       ],
     };
+
     // var data = {
     //   toProduct: {
     //     temId: 1,
@@ -381,6 +304,7 @@ export default class EditeTemplate extends Component {
     //     },
     //   ],
     // };
+
     console.log("done");
     this.props.f_saveAndPreview(data);
     // NavigationService.navigate(NAV_TYPES.SAVE)
