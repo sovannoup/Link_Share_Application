@@ -38,24 +38,57 @@ export function* saveAndPreviewWorker({ payload }) {
     var authDataString = yield AsyncStorage.getItem("@loginToken");
     const authData = yield JSON.parse(authDataString);
     for (var key in payload) {
-      if (key.startsWith("image")) {
-        // console.log("child  is: ", key);
-        body.push({
-          name: String(key),
-          filename: payload[key].path.substring(
-            payload[key].path.lastIndexOf("/") + 1
-          ),
-          type: payload[key].mime,
-          data: String(RNFetchBlob.wrap(payload[key].path)),
-        });
-        //
-      } else {
-        body.push({
-          name: String(key),
-          data: String(payload[key]),
-        });
+      if (key === "toImageSlider") {
+        for (var vari in payload[key]) {
+          // console.log(payload[key][vari]["imageSlider"]);
+          body.push({
+            name: "image",
+            filename: payload[key][vari]["image"].path.substring(
+              payload[key][vari]["image"].path.lastIndexOf("/") + 1
+            ),
+            type: payload[key][vari]["image"].mime,
+            data: String(RNFetchBlob.wrap(payload[key][vari]["image"].path)),
+            id: payload[key][vari]["id"],
+          });
+        }
       }
     }
+    // if (key.startsWith("image")) {
+    //   // console.log("child  is: ", key);
+    //   body.push({
+    //     name: String(key),
+    //     filename: payload[key].path.substring(
+    //       payload[key].path.lastIndexOf("/") + 1
+    //     ),
+    //     type: payload[key].mime,
+    //     data: String(RNFetchBlob.wrap(payload[key].path)),
+    //   });
+    //   //
+    // } else {
+    //   body.push({
+    //     name: String(key),
+    //     data: String(payload[key]),
+    //   });
+    // }
+    // }
+    // if (key.startsWith("image")) {
+    //   // console.log("child  is: ", key);
+    //   body.push({
+    //     name: String(key),
+    //     filename: payload[key].path.substring(
+    //       payload[key].path.lastIndexOf("/") + 1
+    //     ),
+    //     type: payload[key].mime,
+    //     data: String(RNFetchBlob.wrap(payload[key].path)),
+    //   });
+    //   //
+    // } else {
+    //   body.push({
+    //     name: String(key),
+    //     data: String(payload[key]),
+    //   });
+    // }
+    // }
 
     console.log("Body", body);
     // console.log("auth", authData.token);

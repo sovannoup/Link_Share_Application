@@ -153,9 +153,9 @@ export default class EditeTemplate extends Component {
       disPrice: title,
       disPercent: title,
       toImageSlider: [
-        { imageSlider: logoimage, id: 1 },
-        { imageSlider: logoimage, id: 2 },
-        { imageSlider: logoimage, id: 3 },
+        { image: logoimage, id: 1 },
+        { image: logoimage, id: 2 },
+        { image: logoimage, id: 3 },
       ],
       textImage1: title,
       textImage2: title,
