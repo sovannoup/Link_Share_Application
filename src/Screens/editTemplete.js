@@ -75,12 +75,12 @@ export default class EditeTemplate extends Component {
   }
   UNSAFE_componentWillReceiveProps = (nextProps) => {
     const { edit } = this.props;
-    // console.log(nextProps.edit.r_saveAndPreview);
+
     if (
       nextProps.edit.r_saveAndPreview &&
       nextProps.edit.r_saveAndPreview != edit.r_saveAndPreview
     ) {
-      if (nextProps.edit.r_saveAndPreview.message === "success") {
+      if (nextProps.edit.r_saveAndPreview.data.message === "success") {
         console.log("YEHHHHHH WE DID IT.....!!!!");
         alert("WE DID IT.........!!!");
       }
@@ -147,11 +147,11 @@ export default class EditeTemplate extends Component {
       messanger: title,
       telegram: title,
       address: title,
-      phonenumber: title,
+      phonenumber: 132455565,
       email: title,
-      oriPrice: title,
-      disPrice: title,
-      disPercent: title,
+      oriPrice: 50,
+      disPrice: 25,
+      disPercent: 50,
       toImageSlider: [
         { image: logoimage, id: 1 },
         { image: logoimage, id: 2 },
@@ -170,6 +170,9 @@ export default class EditeTemplate extends Component {
         { image: logoimage, id: 3 },
         { image: logoimage, id: 4 },
         { image: logoimage, id: 5 },
+        { image: logoimage, id: 6 },
+        { image: logoimage, id: 7 },
+        { image: logoimage, id: 8 },
         { image: logoimage, id: 9 },
         { image: logoimage, id: 10 },
         { image: logoimage, id: 11 },
@@ -180,130 +183,6 @@ export default class EditeTemplate extends Component {
         { image: logoimage, id: 16 },
       ],
     };
-
-    // var data = {
-    //   toProduct: {
-    //     temId: 1,
-    //     temImage: logoimage,
-    //     productLink: "https://stackoverflow.com/questions/",
-    //     date: moment().format("YYYY/MM/DD-HH:mm:ss"),
-    //     proId: 1,
-    //   },
-    //   toProductInfo: {
-    //     logo: logoimage,
-    //     title: title,
-    //     subtitle: subtitle,
-    //     messanger: messangerLink,
-    //     telegram: telegramLink,
-    //     address: address,
-    //     phonenumber: phonenumber,
-    //     email: email,
-    //   },
-    //   toSlideImg: [
-    //     {
-    //       slideImg: slider1,
-    //       sliderOrder: 1,
-    //     },
-    //     {
-    //       slideImg: slider2,
-    //       sliderOrder: 2,
-    //     },
-    //     {
-    //       slideImg: slider3,
-    //       sliderOrder: 3,
-    //     },
-    //   ],
-    //   toPrice: {
-    //     oriPrice: oriPrice,
-    //     disPrice: disPrice,
-    //     disPercent: percent_dis,
-    //   },
-    //   toDetailTxt: [
-    //     {
-    //       text: proDetail1,
-    //       textOrder: 1,
-    //     },
-    //     {
-    //       text: proDetail2,
-    //       textOrder: 2,
-    //     },
-    //     {
-    //       text: proDetail3,
-    //       textOrder: 3,
-    //     },
-    //   ],
-    //   toImgTxt: [
-    //     {
-    //       image: sixthImg,
-    //       text: imgTxt6,
-    //       id: 6,
-    //     },
-    //     {
-    //       image: sevenImg,
-    //       text: imgTxt7,
-    //       id: 7,
-    //     },
-    //     {
-    //       image: eightImg,
-    //       text: imgTxt8,
-    //       id: 8,
-    //     },
-    //   ],
-    //   toProductImg: [
-    //     {
-    //       image: firstImg,
-    //       id: 1,
-    //     },
-    //     {
-    //       image: secImg,
-    //       id: 2,
-    //     },
-    //     {
-    //       image: thirdImg,
-    //       id: 3,
-    //     },
-    //     {
-    //       image: fourthImg,
-    //       id: 4,
-    //     },
-    //     {
-    //       image: fifthImg,
-    //       id: 5,
-    //     },
-    //     {
-    //       image: nineImg,
-    //       id: 9,
-    //     },
-    //     {
-    //       image: tenImg,
-    //       id: 10,
-    //     },
-    //     {
-    //       image: elevenImg,
-    //       id: 11,
-    //     },
-    //     {
-    //       image: twelveImg,
-    //       id: 12,
-    //     },
-    //     {
-    //       image: thirdteenImg,
-    //       id: 13,
-    //     },
-    //     {
-    //       image: fifteenImg,
-    //       id: 14,
-    //     },
-    //     {
-    //       image: fifteenImg,
-    //       id: 15,
-    //     },
-    //     {
-    //       image: sixteenImg,
-    //       id: 16,
-    //     },
-    //   ],
-    // };
 
     console.log("done");
     this.props.f_saveAndPreview(data);

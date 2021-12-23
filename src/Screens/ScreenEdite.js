@@ -20,11 +20,13 @@ export default class ScreenEdite extends Component {
       index: 0,
       number: 0,
       products: [],
+      editedArr: [],
       Holder: "",
     };
   }
   componentDidMount() {
     this.props.f_getB_template();
+    this.props.f_get_edited_product();
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
@@ -35,6 +37,15 @@ export default class ScreenEdite extends Component {
     ) {
       if (nextProps.edit.result_tem.message === "success") {
         this.setState({ products: nextProps.edit.result_tem.data });
+      }
+    }
+
+    if (
+      nextProps.edit.r_getEdited &&
+      nextProps.edit.r_getEdited != edit.r_getEdited
+    ) {
+      if (nextProps.edit.r_getEdited.message === "success") {
+        this.setState({ editedArr: nextProps.edit.r_getEdited.results });
       }
     }
   }
@@ -101,7 +112,11 @@ export default class ScreenEdite extends Component {
                     <Image
                       resizeMode={"cover"}
                       style={styles.imgStyle}
-                      source={require("../Assets/img.jpg")}
+                      source={
+                        item.image
+                          ? require("../Assets/img.jpg") //{ uri: item.image }
+                          : require("../Assets/img.jpg")
+                      }
                     />
                     <View style={{ flexDirection: "column", paddingLeft: 10 }}>
                       <Text style={{ fontSize: 15, fontWeight: "bold" }}>
@@ -123,11 +138,13 @@ export default class ScreenEdite extends Component {
               })}
 
             {this.state.stateName === "Edited" &&
-              this.state.products.map((item, index) => {
+              this.state.editedArr.map((item, index) => {
                 return (
                   <TouchableOpacity
                     style={styles.productBox}
-                    onPress={press}
+                    onPress={() =>
+                      NavigationService.navigate(NAV_TYPES.EDITTEMPLETE)
+                    }
                     key={index}
                   >
                     <Image
@@ -136,17 +153,20 @@ export default class ScreenEdite extends Component {
                       source={require("../Assets/img.jpg")}
                     />
                     <View style={{ flexDirection: "column", paddingLeft: 10 }}>
-                      <Text style={{ fontSize: 15 }}>{proName}</Text>
+                      <Text style={{ fontSize: 15, fontWeight: "bold" }}>
+                        {item.title}
+                      </Text>
                       <Text
                         style={{
                           fontSize: 15,
-                          marginVertical: "8%",
-                          marginBottom: "20%",
+                          marginVertical: 5,
+                          marginRight: 50,
                         }}
                       >
-                        {proPrice}
+                        {item.subtitle}
                       </Text>
                     </View>
+                    {/*  <TouchableOpacity onPress={()=>this.doItemsToArray()} style={{position:'absolute',right:10,backgroundColor:'red'}}><IconI name="remove-outline" size={25}></IconI></TouchableOpacity> */}
                   </TouchableOpacity>
                 );
               })}

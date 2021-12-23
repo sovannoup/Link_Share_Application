@@ -2,12 +2,13 @@
 import React, { Component } from "react";
 import { Text, StyleSheet, TouchableOpacity, View, Image } from "react-native";
 /* import NavigationService from '../../Service/navigationService'; */
-import { NAV_TYPES } from "../../Navigation/navTypes";
 import { ScrollView } from "react-native-gesture-handler";
 import AllProduct from "../component/AllProduct";
 import OrderProduct from "../component/OrderProduct";
 import Cart from "../component/Edited";
 import { IMG_URL } from "../Modules/app/config";
+import NavigationService from "../Service/navigationService";
+import { NAV_TYPES } from "../Navigation/navTypes";
 
 export default class ScreenOrder extends Component {
   constructor(prop) {
@@ -114,7 +115,15 @@ export default class ScreenOrder extends Component {
             {this.state.stateName === "All" &&
               allOrderedProduct.map((item, index) => {
                 return (
-                  <TouchableOpacity key={index} style={styles.productBox}>
+                  <TouchableOpacity
+                    key={index}
+                    style={styles.productBox}
+                    onPress={() =>
+                      NavigationService.navigate(NAV_TYPES.VIEW_ORDER, {
+                        data: item,
+                      })
+                    }
+                  >
                     <Image
                       resizeMode={"cover"}
                       style={styles.imgStyle}
@@ -144,11 +153,17 @@ export default class ScreenOrder extends Component {
                           style={{
                             fontSize: 15,
                             marginTop: 5,
+                            textAlign: "left",
                           }}
                         >
                           Qty: {item.proQty}$
                         </Text>
-                        <Text style={{ fontSize: 15, fontWeight: "bold" }}>
+                        <Text
+                          style={{
+                            fontSize: 15,
+                            fontWeight: "bold",
+                          }}
+                        >
                           Total: {item.proPrice * item.proQty}
                         </Text>
                       </View>
@@ -194,7 +209,13 @@ export default class ScreenOrder extends Component {
                         >
                           Qty: {item.proQty}$
                         </Text>
-                        <Text style={{ fontSize: 15, fontWeight: "bold" }}>
+                        <Text
+                          style={{
+                            fontSize: 15,
+                            fontWeight: "bold",
+                            marginRight: 10,
+                          }}
+                        >
                           Total: {item.proPrice * item.proQty}
                         </Text>
                       </View>

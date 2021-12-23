@@ -7,12 +7,20 @@ import LinearGradient from "react-native-linear-gradient";
 export default class ViewOrder extends Component {
   constructor(prop) {
     super(prop);
-    this.state = {};
+    this.state = {
+      proInfo: {},
+    };
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps) {}
+  componentDidMount() {
+    const { navigation } = this.props;
+    const data = navigation.getParam("data", false);
+    this.setState({ proInfo: data });
+    console.log(data);
+  }
 
   render() {
+    const { proInfo } = this.state;
     return (
       <View style={styles.container}>
         <LinearGradient
@@ -49,12 +57,12 @@ export default class ViewOrder extends Component {
             />
             <View style={{ flexDirection: "column", paddingLeft: 10 }}>
               <Text style={{ fontSize: 16, fontWeight: "bold" }}>
-                Title of Product
+                {proInfo.proTitle}
               </Text>
               <Text style={{ fontSize: 15, marginVertical: "6%" }}>
-                Price: 168$
+                Price: {proInfo.proPrice}$
               </Text>
-              <Text style={{ fontSize: 15 }}>Qty: 1</Text>
+              <Text style={{ fontSize: 15 }}>Qty: {proInfo.proQty}</Text>
             </View>
             <Text
               style={{
@@ -64,7 +72,7 @@ export default class ViewOrder extends Component {
                 fontWeight: "bold",
               }}
             >
-              Total: 168$
+              Total: {proInfo.proPrice * proInfo.proQty}$
             </Text>
           </View>
 
@@ -76,15 +84,15 @@ export default class ViewOrder extends Component {
             </View>
             <View style={styles.row}>
               <Text style={styles.varr}>Name</Text>
-              <Text style={styles.data}>: Sea Vengseng</Text>
+              <Text style={styles.data}>: {proInfo.oName}</Text>
             </View>
             <View style={styles.row}>
               <Text style={styles.varr}>Tel</Text>
-              <Text style={styles.data}>: 086995253</Text>
+              <Text style={styles.data}>: 0{proInfo.oPhoneNumber}</Text>
             </View>
             <View style={styles.row}>
               <Text style={styles.varr}>Address</Text>
-              <Text style={styles.data}>: #12 St.123 Phnom Penh Cambodia</Text>
+              <Text style={styles.data}>: {proInfo.oAddress}</Text>
             </View>
           </View>
 
@@ -93,7 +101,7 @@ export default class ViewOrder extends Component {
               <Text style={styles.btnText}>Already</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.cancel}>
-              <Text style={styles.btnText}>Canceled</Text>
+              <Text style={styles.btnText}>Cancel</Text>
             </TouchableOpacity>
           </View>
         </View>
