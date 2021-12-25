@@ -7,6 +7,7 @@ import {
   ImageBackground,
   View,
   SafeAreaView,
+  ActivityIndicator,
   Image,
   TextInput,
   ImagePickerIOS,
@@ -73,6 +74,13 @@ export default class EditeTemplate extends Component {
       sixteenImg: "",
     };
   }
+
+  componentDidMount() {
+    const { navigation } = this.props;
+    const id = navigation.getParam("id", false);
+    this.setState({ id: id });
+  }
+
   UNSAFE_componentWillReceiveProps = (nextProps) => {
     const { edit } = this.props;
 
@@ -81,8 +89,8 @@ export default class EditeTemplate extends Component {
       nextProps.edit.r_saveAndPreview != edit.r_saveAndPreview
     ) {
       if (nextProps.edit.r_saveAndPreview.data.message === "success") {
-        console.log("YEHHHHHH WE DID IT.....!!!!");
-        alert("WE DID IT.........!!!");
+        this.props.f_get_edited_product();
+        NavigationService.navigate(NAV_TYPES.EDIT);
       }
     }
   };
@@ -97,6 +105,7 @@ export default class EditeTemplate extends Component {
       address,
       phonenumber,
       email,
+      id,
 
       slider1,
       slider2,
@@ -136,51 +145,50 @@ export default class EditeTemplate extends Component {
       sixteenImg,
     } = this.state;
     var data = {
-      temId: 1,
-      imageTem: logoimage,
+      temId: id,
       productLink: "https://stackoverflow.com/questions/",
       date: moment().format("YYYY/MM/DD-HH:mm:ss"),
-      proId: 1,
+      shopName: shopName,
       imageLogo: logoimage,
       title: title,
-      subtitle: title,
-      messanger: title,
-      telegram: title,
-      address: title,
-      phonenumber: 132455565,
-      email: title,
-      oriPrice: 50,
-      disPrice: 25,
-      disPercent: 50,
+      subtitle: subtitle,
+      messanger: messangerLink,
+      telegram: telegramLink,
+      address: address,
+      phonenumber: phonenumber,
+      email: email,
+      oriPrice: oriPrice,
+      disPrice: disPrice,
+      disPercent: percent_dis,
       toImageSlider: [
-        { image: logoimage, id: 1 },
-        { image: logoimage, id: 2 },
-        { image: logoimage, id: 3 },
+        { image: slider1, id: 1 },
+        { image: slider2, id: 2 },
+        { image: slider3, id: 3 },
       ],
-      textImage1: title,
-      textImage2: title,
-      textImage3: title,
-      title1: title,
-      title2: title,
-      title3: title,
+      textImage1: imgTxt6,
+      textImage2: imgTxt7,
+      textImage3: imgTxt8,
+      title1: proDetail1,
+      title2: proDetail2,
+      title3: proDetail3,
 
       toOtherImage: [
-        { image: logoimage, id: 1 },
-        { image: logoimage, id: 2 },
-        { image: logoimage, id: 3 },
-        { image: logoimage, id: 4 },
-        { image: logoimage, id: 5 },
-        { image: logoimage, id: 6 },
-        { image: logoimage, id: 7 },
-        { image: logoimage, id: 8 },
-        { image: logoimage, id: 9 },
-        { image: logoimage, id: 10 },
-        { image: logoimage, id: 11 },
-        { image: logoimage, id: 12 },
-        { image: logoimage, id: 13 },
-        { image: logoimage, id: 14 },
-        { image: logoimage, id: 15 },
-        { image: logoimage, id: 16 },
+        { image: firstImg, id: 1 },
+        { image: secImg, id: 2 },
+        { image: thirdImg, id: 3 },
+        { image: fourthImg, id: 4 },
+        { image: fifthImg, id: 5 },
+        { image: sixthImg, id: 6 },
+        { image: sevenImg, id: 7 },
+        { image: eightImg, id: 8 },
+        { image: nineImg, id: 9 },
+        { image: tenImg, id: 10 },
+        { image: elevenImg, id: 11 },
+        { image: twelveImg, id: 12 },
+        { image: thirdteenImg, id: 13 },
+        { image: fourteenImg, id: 14 },
+        { image: fifteenImg, id: 15 },
+        { image: sixteenImg, id: 16 },
       ],
     };
 

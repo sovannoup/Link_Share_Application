@@ -12,6 +12,7 @@ import {
 import NavigationService from "../Service/navigationService";
 import { NAV_TYPES } from "../Navigation/navTypes";
 import { ScrollView } from "react-native-gesture-handler";
+import { IMG_TEMPLATE, IMG_LOGO } from "../Modules/app/config";
 export default class ScreenEdite extends Component {
   constructor(prop) {
     super(prop);
@@ -36,7 +37,19 @@ export default class ScreenEdite extends Component {
       nextProps.edit.result_tem != edit.result_tem
     ) {
       if (nextProps.edit.result_tem.message === "success") {
-        this.setState({ products: nextProps.edit.result_tem.data });
+        var image = [];
+        for (
+          let index = 0;
+          index < nextProps.edit.result_tem.data.length;
+          index++
+        ) {
+          const element = nextProps.edit.result_tem.data[index];
+          image.push({
+            ...element,
+            url: IMG_TEMPLATE + element.image,
+          });
+        }
+        this.setState({ products: image });
       }
     }
 
@@ -45,7 +58,20 @@ export default class ScreenEdite extends Component {
       nextProps.edit.r_getEdited != edit.r_getEdited
     ) {
       if (nextProps.edit.r_getEdited.message === "success") {
-        this.setState({ editedArr: nextProps.edit.r_getEdited.results });
+        var image = [];
+        for (
+          let index = 0;
+          index < nextProps.edit.r_getEdited.results.length;
+          index++
+        ) {
+          const element = nextProps.edit.r_getEdited.results[index];
+          image.push({
+            ...element,
+            url: IMG_LOGO + element.image,
+          });
+        }
+        this.setState({ editedArr: image });
+        console.log(image);
       }
     }
   }
@@ -105,7 +131,9 @@ export default class ScreenEdite extends Component {
                   <TouchableOpacity
                     style={styles.productBox}
                     onPress={() =>
-                      NavigationService.navigate(NAV_TYPES.EDITTEMPLETE)
+                      NavigationService.navigate(NAV_TYPES.EDITTEMPLETE, {
+                        id: item.id,
+                      })
                     }
                     key={index}
                   >
@@ -114,7 +142,7 @@ export default class ScreenEdite extends Component {
                       style={styles.imgStyle}
                       source={
                         item.image
-                          ? require("../Assets/img.jpg") //{ uri: item.image }
+                          ? { uri: item.url }
                           : require("../Assets/img.jpg")
                       }
                     />
@@ -150,7 +178,11 @@ export default class ScreenEdite extends Component {
                     <Image
                       resizeMode={"cover"}
                       style={styles.imgStyle}
-                      source={require("../Assets/img.jpg")}
+                      source={
+                        item.url
+                          ? { uri: item.url }
+                          : require("../Assets/img.jpg")
+                      }
                     />
                     <View style={{ flexDirection: "column", paddingLeft: 10 }}>
                       <Text style={{ fontSize: 15, fontWeight: "bold" }}>

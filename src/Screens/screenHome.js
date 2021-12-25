@@ -24,7 +24,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import Carousel from "react-native-snap-carousel";
 import { scrollInterpolator, animatedStyles } from "./../Utils/animations";
 import LinearGradient from "react-native-linear-gradient";
-import { IMG_URL, IMG_DETIAL_URL } from "../Modules/app/config";
+import { IMG_TEMPLATE } from "../Modules/app/config";
 import { CodeInputModule } from "angular-code-input";
 
 const width = Dimensions.get("window").width;
@@ -89,7 +89,7 @@ export default class Home extends Component {
           const element = nextProps.home.tem_list.results[index];
           slideImg.push({
             ...element,
-            url: IMG_URL + element.image,
+            url: IMG_TEMPLATE + element.image,
           });
           /*             detialImg.push({
               ...element,

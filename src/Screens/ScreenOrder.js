@@ -6,7 +6,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import AllProduct from "../component/AllProduct";
 import OrderProduct from "../component/OrderProduct";
 import Cart from "../component/Edited";
-import { IMG_URL } from "../Modules/app/config";
+import { IMG_URL, IMG_LOGO } from "../Modules/app/config";
 import NavigationService from "../Service/navigationService";
 import { NAV_TYPES } from "../Navigation/navTypes";
 
@@ -67,6 +67,7 @@ export default class ScreenOrder extends Component {
       nextProps.home.r_orderPro != home.r_orderPro
     ) {
       if (nextProps.home.r_orderPro.message === "success") {
+        // console.log(nextProps.home.r_orderPro.data);
         var all = [];
         var ordering = [];
         var cancel = [];
@@ -75,17 +76,17 @@ export default class ScreenOrder extends Component {
           const element = nextProps.home.r_orderPro.data[index];
           all.push({
             ...element,
-            url: IMG_URL + element.temImage,
+            url: IMG_LOGO + element.image,
           });
-          if (element.orderApproved === 1) {
+          if (element.approved === "1") {
             ordering.push({
               ...element,
-              url: IMG_URL + element.temImage,
+              url: IMG_LOGO + element.image,
             });
-          } else {
+          } else if (element.approved === "0") {
             cancel.push({
               ...element,
-              url: IMG_URL + element.temImage,
+              url: IMG_LOGO + element.image,
             });
           }
         }
@@ -127,11 +128,15 @@ export default class ScreenOrder extends Component {
                     <Image
                       resizeMode={"cover"}
                       style={styles.imgStyle}
-                      source={require("../Assets/img.jpg")}
+                      source={
+                        item.url
+                          ? { uri: item.url }
+                          : require("../Assets/img.jpg")
+                      }
                     />
                     <View style={{ flexDirection: "column", paddingLeft: 10 }}>
                       <Text style={{ fontSize: 15, fontWeight: "bold" }}>
-                        {item.proTitle}
+                        {item.title}
                       </Text>
                       <Text
                         style={{
@@ -139,7 +144,7 @@ export default class ScreenOrder extends Component {
                           marginTop: 5,
                         }}
                       >
-                        Price: {item.proPrice}$
+                        Price: $ {item.price}
                       </Text>
                       <View
                         style={{
@@ -156,7 +161,7 @@ export default class ScreenOrder extends Component {
                             textAlign: "left",
                           }}
                         >
-                          Qty: {item.proQty}$
+                          Qty: {item.qty}
                         </Text>
                         <Text
                           style={{
@@ -164,7 +169,7 @@ export default class ScreenOrder extends Component {
                             fontWeight: "bold",
                           }}
                         >
-                          Total: {item.proPrice * item.proQty}
+                          Total: $ {item.price * item.qty}
                         </Text>
                       </View>
                     </View>
@@ -179,11 +184,15 @@ export default class ScreenOrder extends Component {
                     <Image
                       resizeMode={"cover"}
                       style={styles.imgStyle}
-                      source={require("../Assets/img.jpg")}
+                      source={
+                        item.url
+                          ? { uri: item.url }
+                          : require("../Assets/img.jpg")
+                      }
                     />
                     <View style={{ flexDirection: "column", paddingLeft: 10 }}>
                       <Text style={{ fontSize: 15, fontWeight: "bold" }}>
-                        {item.proTitle}
+                        {item.title}
                       </Text>
                       <Text
                         style={{
@@ -191,7 +200,7 @@ export default class ScreenOrder extends Component {
                           marginTop: 5,
                         }}
                       >
-                        Price: {item.proPrice}$
+                        Price: $ {item.price}
                       </Text>
                       <View
                         style={{
@@ -207,7 +216,7 @@ export default class ScreenOrder extends Component {
                             marginTop: 5,
                           }}
                         >
-                          Qty: {item.proQty}$
+                          Qty: {item.qty}
                         </Text>
                         <Text
                           style={{
@@ -216,7 +225,7 @@ export default class ScreenOrder extends Component {
                             marginRight: 10,
                           }}
                         >
-                          Total: {item.proPrice * item.proQty}
+                          Total: $ {item.price * item.qty}
                         </Text>
                       </View>
                     </View>
@@ -230,11 +239,15 @@ export default class ScreenOrder extends Component {
                     <Image
                       resizeMode={"cover"}
                       style={styles.imgStyle}
-                      source={require("../Assets/img.jpg")}
+                      source={
+                        item.url
+                          ? { uri: item.url }
+                          : require("../Assets/img.jpg")
+                      }
                     />
                     <View style={{ flexDirection: "column", paddingLeft: 10 }}>
                       <Text style={{ fontSize: 15, fontWeight: "bold" }}>
-                        {item.proTitle}
+                        {item.title}
                       </Text>
                       <Text
                         style={{
@@ -242,7 +255,7 @@ export default class ScreenOrder extends Component {
                           marginTop: 5,
                         }}
                       >
-                        Price: {item.proPrice}$
+                        Price: $ {item.price}
                       </Text>
                       <View
                         style={{
@@ -258,10 +271,10 @@ export default class ScreenOrder extends Component {
                             marginTop: 5,
                           }}
                         >
-                          Qty: {item.proQty}$
+                          Qty: {item.qty}
                         </Text>
                         <Text style={{ fontSize: 15, fontWeight: "bold" }}>
-                          Total: {item.proPrice * item.proQty}
+                          Total: $ {item.price * item.qty}
                         </Text>
                       </View>
                     </View>

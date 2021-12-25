@@ -19,6 +19,29 @@ export default class ViewOrder extends Component {
     console.log(data);
   }
 
+  UNSAFE_componentWillReceiveProps = (nextProps) => {
+    const { home } = this.props;
+    if (
+      nextProps.home.r_acceptOrder &&
+      nextProps.home.r_acceptOrder != home.r_acceptOrder
+    ) {
+      if (nextProps.home.r_acceptOrder.message === "success") {
+        this.props.f_get_product();
+        NavigationService.navigate(NAV_TYPES.ORDER);
+      }
+    }
+
+    if (
+      nextProps.home.r_cancelOrder &&
+      nextProps.home.r_cancelOrder != home.r_cancelOrder
+    ) {
+      if (nextProps.home.r_cancelOrder.message === "success") {
+        this.props.f_get_product();
+        NavigationService.navigate(NAV_TYPES.ORDER);
+      }
+    }
+  };
+
   render() {
     const { proInfo } = this.state;
     return (
@@ -57,22 +80,21 @@ export default class ViewOrder extends Component {
             />
             <View style={{ flexDirection: "column", paddingLeft: 10 }}>
               <Text style={{ fontSize: 16, fontWeight: "bold" }}>
-                {proInfo.proTitle}
+                {proInfo.title}
               </Text>
               <Text style={{ fontSize: 15, marginVertical: "6%" }}>
-                Price: {proInfo.proPrice}$
+                Price: {proInfo.price}$
               </Text>
-              <Text style={{ fontSize: 15 }}>Qty: {proInfo.proQty}</Text>
+              <Text style={{ fontSize: 15 }}>Qty: {proInfo.qty}</Text>
             </View>
             <Text
               style={{
                 fontSize: 16,
                 marginTop: "16%",
-                marginLeft: "15%",
                 fontWeight: "bold",
               }}
             >
-              Total: {proInfo.proPrice * proInfo.proQty}$
+              Total: {proInfo.price * proInfo.qty}$
             </Text>
           </View>
 
@@ -84,23 +106,29 @@ export default class ViewOrder extends Component {
             </View>
             <View style={styles.row}>
               <Text style={styles.varr}>Name</Text>
-              <Text style={styles.data}>: {proInfo.oName}</Text>
+              <Text style={styles.data}>: {proInfo.name}</Text>
             </View>
             <View style={styles.row}>
               <Text style={styles.varr}>Tel</Text>
-              <Text style={styles.data}>: 0{proInfo.oPhoneNumber}</Text>
+              <Text style={styles.data}>: 0{proInfo.phonenumber}</Text>
             </View>
             <View style={styles.row}>
               <Text style={styles.varr}>Address</Text>
-              <Text style={styles.data}>: {proInfo.oAddress}</Text>
+              <Text style={styles.data}>: {proInfo.address}</Text>
             </View>
           </View>
 
           <View style={styles.rowBtn}>
-            <TouchableOpacity style={styles.already}>
+            <TouchableOpacity
+              onPress={() => this.props.f_accept_order({ id: proInfo.id })}
+              style={styles.already}
+            >
               <Text style={styles.btnText}>Already</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.cancel}>
+            <TouchableOpacity
+              onPress={() => this.props.f_cancel_order({ id: proInfo.id })}
+              style={styles.cancel}
+            >
               <Text style={styles.btnText}>Cancel</Text>
             </TouchableOpacity>
           </View>

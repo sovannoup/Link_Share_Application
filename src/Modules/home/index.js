@@ -2,7 +2,13 @@ import { call, put, takeLatest } from "redux-saga/effects";
 import { error, success } from "redux-saga-requests";
 import { axios } from "../app/index";
 import nomalize from "../../Utils/normiliseServerResponce";
-import { GET_HOME_TEM, ORDER_TEMPLATE, ORDER_PRODUCT } from "./reducer";
+import {
+  GET_HOME_TEM,
+  ORDER_TEMPLATE,
+  ORDER_PRODUCT,
+  CANCEL_ORDER,
+  ACCEPT_ORDER,
+} from "./reducer";
 import normalize from "../../Utils/normiliseServerResponce";
 
 export function* GetHomeTemWorker({ payload }) {
@@ -61,8 +67,53 @@ export function* OrderProductWorker({ payload }) {
   }
 }
 
+export function* CancelOrderWorker({ payload }) {
+  try {
+    const r_cancelOrder = yield call(
+      axios.post,
+      "myServer/product/cancelOrder",
+      payload
+    );
+    yield put({
+      type: success(CANCEL_ORDER),
+      payload: {
+        r_cancelOrder: normalize(r_cancelOrder),
+      },
+    });
+  } catch (e) {
+    yield put({
+      type: error(CANCEL_ORDER),
+      payload: { error_cancelOrder: e },
+    });
+  }
+}
+
+export function* AcceptOrderWorker({ payload }) {
+  try {
+    console.log(payload);
+    const r_acceptOrder = yield call(
+      axios.post,
+      "myServer/product/acceptOrder",
+      payload
+    );
+    yield put({
+      type: success(ACCEPT_ORDER),
+      payload: {
+        r_acceptOrder: normalize(r_acceptOrder),
+      },
+    });
+  } catch (e) {
+    yield put({
+      type: error(ACCEPT_ORDER),
+      payload: { error_acceptOrder: e },
+    });
+  }
+}
+
 export function* homeSaga() {
   yield takeLatest(GET_HOME_TEM, GetHomeTemWorker);
   yield takeLatest(ORDER_TEMPLATE, OrderTemplateWorker);
   yield takeLatest(ORDER_PRODUCT, OrderProductWorker);
+  yield takeLatest(CANCEL_ORDER, CancelOrderWorker);
+  yield takeLatest(ACCEPT_ORDER, AcceptOrderWorker);
 }
