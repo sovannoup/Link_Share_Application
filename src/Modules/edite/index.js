@@ -6,6 +6,7 @@ import {
   GET_BOUGHT_TEMPLATE,
   SAVE_PREVIEW,
   GET_EDITED_PRODUCT,
+  GET_DETAIL_PRO,
 } from "./reducer";
 import normalize from "../../Utils/normiliseServerResponce";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -137,8 +138,30 @@ export function* saveAndPreviewWorker({ payload }) {
   }
 }
 
+export function* getDetailProWorker({ payload }) {
+  try {
+    const r_getProDetail = yield call(
+      axios.post,
+      "myServer/product/seeEditedDetail",
+      payload
+    );
+    yield put({
+      type: success(GET_DETAIL_PRO),
+      payload: {
+        r_getProDetail: normalize(r_getProDetail),
+      },
+    });
+  } catch (e) {
+    yield put({
+      type: error(GET_DETAIL_PRO),
+      payload: { error_template: e },
+    });
+  }
+}
+
 export function* editeSaga() {
   yield takeLatest(GET_BOUGHT_TEMPLATE, TemplateWorker);
   yield takeLatest(SAVE_PREVIEW, saveAndPreviewWorker);
   yield takeLatest(GET_EDITED_PRODUCT, getEditedProductWorker);
+  yield takeLatest(GET_DETAIL_PRO, getDetailProWorker);
 }

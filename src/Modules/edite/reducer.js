@@ -3,6 +3,7 @@ import { success, error, abort } from "redux-saga-requests";
 export const GET_BOUGHT_TEMPLATE = "GET_BOUGHT_TEMPLATE";
 export const SAVE_PREVIEW = "SAVE_PREVIEW";
 export const GET_EDITED_PRODUCT = "GET_EDITED_PRODUCT";
+export const GET_DETAIL_PRO = "GET_DETAIL_PRO";
 
 export const f_getB_template = (payload) => ({
   type: GET_BOUGHT_TEMPLATE,
@@ -14,6 +15,10 @@ export const f_saveAndPreview = (payload) => ({
 });
 export const f_get_edited_product = (payload) => ({
   type: GET_EDITED_PRODUCT,
+  payload,
+});
+export const f_getDetailTem = (payload) => ({
+  type: GET_DETAIL_PRO,
   payload,
 });
 
@@ -77,6 +82,24 @@ const editeReducer = (state = initialState, action) => {
       return { ...state, error: true, pending: false, ...action.payload };
     }
     case abort(GET_EDITED_PRODUCT): {
+      return { ...state, pending: false };
+    }
+
+    //GET_DETAIL_PRO
+    case GET_DETAIL_PRO: {
+      return { ...state, pending: true };
+    }
+    case success(GET_DETAIL_PRO): {
+      return {
+        ...state,
+        ...action.payload,
+        pending: false,
+      };
+    }
+    case error(GET_DETAIL_PRO): {
+      return { ...state, error: true, pending: false, ...action.payload };
+    }
+    case abort(GET_DETAIL_PRO): {
       return { ...state, pending: false };
     }
 

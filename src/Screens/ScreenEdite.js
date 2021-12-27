@@ -171,7 +171,9 @@ export default class ScreenEdite extends Component {
                   <TouchableOpacity
                     style={styles.productBox}
                     onPress={() =>
-                      NavigationService.navigate(NAV_TYPES.EDITTEMPLETE)
+                      NavigationService.navigate(NAV_TYPES.EDITTEMPLETE, {
+                        proId: item.id,
+                      })
                     }
                     key={index}
                   >

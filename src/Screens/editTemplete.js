@@ -20,12 +20,14 @@ import ImagePicker from "react-native-image-crop-picker";
 /* import Slideshow from 'react-native-timed-slideshow'; */
 import Swiper from "react-native-web-swiper";
 import moment from "moment";
+import { IMG_LOGO } from "../Modules/app/config";
 
 export default class EditeTemplate extends Component {
   constructor(prop) {
     super(prop);
     this.state = {
       id: "",
+      proId: "",
       title: "",
       logoimage: "",
       subtitle: "",
@@ -35,6 +37,7 @@ export default class EditeTemplate extends Component {
       address: "",
       phonenumber: "",
       email: "",
+      toProLink: "",
 
       proDetail1: "",
       proDetail2: "",
@@ -78,12 +81,15 @@ export default class EditeTemplate extends Component {
   componentDidMount() {
     const { navigation } = this.props;
     const id = navigation.getParam("id", false);
-    this.setState({ id: id });
+    const proId = navigation.getParam("proId", false);
+    this.setState({ id: id, proId: proId });
+    if (proId > 0) {
+      this.props.f_getDetailTem({ id: proId });
+    }
   }
 
   UNSAFE_componentWillReceiveProps = (nextProps) => {
     const { edit } = this.props;
-
     if (
       nextProps.edit.r_saveAndPreview &&
       nextProps.edit.r_saveAndPreview != edit.r_saveAndPreview
@@ -93,6 +99,35 @@ export default class EditeTemplate extends Component {
         NavigationService.navigate(NAV_TYPES.EDIT);
       }
     }
+    console.log(nextProps.edit.r_getProDetail);
+    if (
+      nextProps.edit.r_getProDetail &&
+      nextProps.edit.r_getProDetail != edit.r_getProDetail
+    ) {
+      if (nextProps.edit.r_getProDetail.message === "success") {
+        var data = nextProps.edit.r_getProDetail.data;
+        var toPro = data.toProduct[0];
+        //Assigning to state
+        this.setState({
+          shopName: toPro.shopname,
+          subtitle: toPro.subtitle,
+          title: toPro.title,
+          messangerLink: toPro.messanger,
+          telegramLink: toPro.telegram,
+          email: toPro.email,
+          address: toPro.address,
+          phonenumber: toPro.phonenumber.toString(),
+          toProLink: toPro.link,
+          oriPrice: toPro.oriPrice.toString(),
+          disPrice: toPro.disPrice.toString(),
+          percent_dis: toPro.disPercent.toString(),
+          logoimage: IMG_LOGO + toPro.logo,
+        });
+        for (var i = 0; i > data.toImageSlider.length(); i++) {
+          // if(data.toImageSlider[i])
+        }
+      }
+    }
   };
   saveAndPreview = () => {
     const {
@@ -100,6 +135,7 @@ export default class EditeTemplate extends Component {
       logoimage,
       subtitle,
       shopName,
+
       messangerLink,
       telegramLink,
       address,
@@ -246,6 +282,7 @@ export default class EditeTemplate extends Component {
   render() {
     const {
       title,
+      proId,
       logoimage,
       subtitle,
       shopName,
@@ -317,7 +354,9 @@ export default class EditeTemplate extends Component {
                   source={
                     logoimage
                       ? {
-                          uri: `data:image/png;base64,${this.state.logoimage["data"]}`,
+                          uri: proId
+                            ? logoimage
+                            : `data:image/png;base64,${this.state.logoimage["data"]}`,
                         }
                       : require("./../Assets/Images/loo.jpg")
                   }
