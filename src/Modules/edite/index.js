@@ -7,6 +7,7 @@ import {
   SAVE_PREVIEW,
   GET_EDITED_PRODUCT,
   GET_DETAIL_PRO,
+  UPDATE_PRODUCT,
 } from "./reducer";
 import normalize from "../../Utils/normiliseServerResponce";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -159,9 +160,106 @@ export function* getDetailProWorker({ payload }) {
   }
 }
 
+export function* updateProductWorker({ payload }) {
+  try {
+    console.log("hiiiiiiiiiiii", payload);
+    var body = [];
+    var konBody = [];
+    var sec = {};
+    var innerArr = [];
+    var success_ = false;
+    var dataError = {};
+    var dataRes = {};
+    var authDataString = yield AsyncStorage.getItem("@loginToken");
+    const authData = yield JSON.parse(authDataString);
+    for (var key in payload) {
+      console.log("key  is : ", key);
+      if (key === "toImageSlider" || key === "toOtherImage") {
+        for (var vari in payload[key]) {
+          body.push({
+            name: key,
+            filename: String(payload[key][vari]["id"]),
+            type: payload[key][vari]["image"].mime,
+            data: String(RNFetchBlob.wrap(payload[key][vari]["image"].path)),
+            // id: payload[key][vari]["id"],
+          });
+        }
+      } else if (key.startsWith("image")) {
+        if (payload[key].startsWith("http")) {
+          body.push({
+            name: String(key),
+            data: String(payload[key]),
+          });
+        } else {
+          body.push({
+            name: String(key),
+            filename: payload[key].path.substring(
+              payload[key].path.lastIndexOf("/") + 1
+            ),
+            type: payload[key].mime,
+            data: String(RNFetchBlob.wrap(payload[key].path)),
+          });
+        }
+      } else {
+        body.push({
+          name: String(key),
+          data: String(payload[key]),
+        });
+      }
+      console.log("Body", body);
+    }
+
+    console.log("Body", body);
+    // console.log("auth", authData.token);
+    yield RNFetchBlob.fetch(
+      "POST",
+      `${API_URL}/myServer/productUpdate`,
+      {
+        Authorization: `Bearer ${authData.token}`,
+        "Content-Type": "multipart/form-data",
+        Boundary: "form-data",
+      },
+      body
+    )
+      .then((res) => {
+        console.log(nomalize(res));
+        dataRes = {
+          data: JSON.parse(nomalize(res)),
+        };
+        console.log("res", dataRes);
+        success_ = true;
+      })
+      .catch((res) => {
+        dataError = res;
+        console.log("error", dataError);
+      });
+    if (success_) {
+      yield put({
+        type: success(UPDATE_PRODUCT),
+        payload: {
+          r_updateProduct: dataRes,
+        },
+      });
+    } else {
+      yield put({
+        type: error(UPDATE_PRODUCT),
+        payload: {
+          error_update_product: JSON.parse(dataError),
+        },
+      });
+    }
+  } catch (e) {
+    yield put({
+      type: error(UPDATE_PRODUCT),
+      payload: { error_update_pro: e },
+    });
+  }
+}
+
 export function* editeSaga() {
   yield takeLatest(GET_BOUGHT_TEMPLATE, TemplateWorker);
   yield takeLatest(SAVE_PREVIEW, saveAndPreviewWorker);
   yield takeLatest(GET_EDITED_PRODUCT, getEditedProductWorker);
   yield takeLatest(GET_DETAIL_PRO, getDetailProWorker);
+  yield takeLatest(UPDATE_PRODUCT, updateProductWorker);
 }

@@ -20,7 +20,7 @@ import ImagePicker from "react-native-image-crop-picker";
 /* import Slideshow from 'react-native-timed-slideshow'; */
 import Swiper from "react-native-web-swiper";
 import moment from "moment";
-import { IMG_LOGO } from "../Modules/app/config";
+import { IMG_LOGO, IMG_OTHERIMAGE, IMG_SLIDE } from "../Modules/app/config";
 
 export default class EditeTemplate extends Component {
   constructor(prop) {
@@ -99,7 +99,6 @@ export default class EditeTemplate extends Component {
         NavigationService.navigate(NAV_TYPES.EDIT);
       }
     }
-    console.log(nextProps.edit.r_getProDetail);
     if (
       nextProps.edit.r_getProDetail &&
       nextProps.edit.r_getProDetail != edit.r_getProDetail
@@ -123,9 +122,108 @@ export default class EditeTemplate extends Component {
           percent_dis: toPro.disPercent.toString(),
           logoimage: IMG_LOGO + toPro.logo,
         });
-        for (var i = 0; i > data.toImageSlider.length(); i++) {
-          // if(data.toImageSlider[i])
-        }
+        var slider = data.toImageSlider;
+        slider[0]
+          ? this.setState({ slider1: IMG_SLIDE + slider[0].image })
+          : false;
+        slider[1]
+          ? this.setState({ slider2: IMG_SLIDE + slider[1].image })
+          : false;
+        slider[2]
+          ? this.setState({ slider3: IMG_SLIDE + slider[2].image })
+          : false;
+
+        var detail = data.toDetailTxt;
+        detail[0] ? this.setState({ proDetail1: detail[0].text }) : false;
+        detail[1] ? this.setState({ proDetail2: detail[1].text }) : false;
+        detail[2] ? this.setState({ proDetail3: detail[2].text }) : false;
+
+        var imgTxt = data.toImageText;
+        imgTxt[0]
+          ? this.setState({
+              sixthImg: IMG_OTHERIMAGE + imgTxt[0].image,
+              imgTxt6: imgTxt[0].text,
+            })
+          : "";
+        imgTxt[1]
+          ? this.setState({
+              sevenImg: IMG_OTHERIMAGE + imgTxt[1].image,
+              imgTxt7: imgTxt[1].text,
+            })
+          : "";
+        imgTxt[2]
+          ? this.setState({
+              eightImg: IMG_OTHERIMAGE + imgTxt[2].image,
+              imgTxt8: imgTxt[2].text,
+            })
+          : "";
+
+        var oImg = data.toOtherImages;
+        oImg[0]
+          ? this.setState({
+              firstImg: IMG_OTHERIMAGE + oImg[0].image,
+            })
+          : "";
+        oImg[1]
+          ? this.setState({
+              secImg: IMG_OTHERIMAGE + oImg[1].image,
+            })
+          : "";
+        oImg[2]
+          ? this.setState({
+              thirdImg: IMG_OTHERIMAGE + oImg[2].image,
+            })
+          : "";
+        oImg[3]
+          ? this.setState({
+              fourthImg: IMG_OTHERIMAGE + oImg[3].image,
+            })
+          : "";
+        oImg[4]
+          ? this.setState({
+              fifthImg: IMG_OTHERIMAGE + oImg[4].image,
+            })
+          : "";
+        oImg[5]
+          ? this.setState({
+              nineImg: IMG_OTHERIMAGE + oImg[5].image,
+            })
+          : "";
+        oImg[6]
+          ? this.setState({
+              tenImg: IMG_OTHERIMAGE + oImg[6].image,
+            })
+          : "";
+        oImg[7]
+          ? this.setState({
+              elevenImg: IMG_OTHERIMAGE + oImg[7].image,
+            })
+          : "";
+        oImg[8]
+          ? this.setState({
+              twelveImg: IMG_OTHERIMAGE + oImg[8].image,
+            })
+          : "";
+        oImg[9]
+          ? this.setState({
+              thirdteenImg: IMG_OTHERIMAGE + oImg[9].image,
+            })
+          : "";
+        oImg[10]
+          ? this.setState({
+              fourteenImg: IMG_OTHERIMAGE + oImg[10].image,
+            })
+          : "";
+        oImg[11]
+          ? this.setState({
+              fifteenImg: IMG_OTHERIMAGE + oImg[11].image,
+            })
+          : "";
+        oImg[12]
+          ? this.setState({
+              sixteenImg: IMG_OTHERIMAGE + oImg[12].image,
+            })
+          : "";
       }
     }
   };
@@ -142,6 +240,7 @@ export default class EditeTemplate extends Component {
       phonenumber,
       email,
       id,
+      proId,
 
       slider1,
       slider2,
@@ -181,7 +280,7 @@ export default class EditeTemplate extends Component {
       sixteenImg,
     } = this.state;
     var data = {
-      temId: id,
+      temId: id ? id : "",
       productLink: "https://stackoverflow.com/questions/",
       date: moment().format("YYYY/MM/DD-HH:mm:ss"),
       shopName: shopName,
@@ -229,7 +328,13 @@ export default class EditeTemplate extends Component {
     };
 
     console.log("done");
-    this.props.f_saveAndPreview(data);
+    if (proId != "") {
+      console.log("Updating data....!");
+      Object.assign(data, { proId: proId });
+      this.props.f_updateProduct(data);
+    } else {
+      this.props.f_saveAndPreview(data);
+    }
     // NavigationService.navigate(NAV_TYPES.SAVE)
   };
   txtChange = (key, value) => {
@@ -334,7 +439,7 @@ export default class EditeTemplate extends Component {
         <View style={styles.coverHomeIcon}>
           <TouchableOpacity
             stlye={styles.homeIcon}
-            onPress={() => NavigationService.navigate(NAV_TYPES.CORE)}
+            onPress={() => NavigationService.goBack()}
           >
             <View style={styles.Icon}>
               <IconF name="home" style={{ fontSize: 20, color: "white" }} />
@@ -354,9 +459,10 @@ export default class EditeTemplate extends Component {
                   source={
                     logoimage
                       ? {
-                          uri: proId
-                            ? logoimage
-                            : `data:image/png;base64,${this.state.logoimage["data"]}`,
+                          uri:
+                            logoimage && proId
+                              ? logoimage
+                              : `data:image/png;base64,${this.state.logoimage["data"]}`,
                         }
                       : require("./../Assets/Images/loo.jpg")
                   }
@@ -382,7 +488,10 @@ export default class EditeTemplate extends Component {
                       source={
                         slider1
                           ? {
-                              uri: `data:image/png;base64,${this.state.slider1["data"]}`,
+                              uri:
+                                slider1 && proId
+                                  ? slider1
+                                  : `data:image/png;base64,${this.state.slider1["data"]}`,
                             }
                           : require("./../Assets/Images/blank.jpg")
                       }
@@ -398,9 +507,11 @@ export default class EditeTemplate extends Component {
                     <Image
                       style={{ width: "100%", height: "100%" }}
                       source={
-                        slider2
+                        slider2 && proId
                           ? {
-                              uri: `data:image/png;base64,${this.state.slider2["data"]}`,
+                              uri: slider2
+                                ? slider2
+                                : `data:image/png;base64,${this.state.slider2["data"]}`,
                             }
                           : require("./../Assets/Images/blank.jpg")
                       }
@@ -417,7 +528,10 @@ export default class EditeTemplate extends Component {
                       source={
                         slider3
                           ? {
-                              uri: `data:image/png;base64,${this.state.slider3["data"]}`,
+                              uri:
+                                slider3 && proId
+                                  ? slider3
+                                  : `data:image/png;base64,${this.state.slider3["data"]}`,
                             }
                           : require("./../Assets/Images/blank.jpg")
                       }
@@ -492,7 +606,7 @@ export default class EditeTemplate extends Component {
                   placeholder="Product Detail"
                   style={{ padding: 0 }}
                   onChangeText={(text) => this.txtChange("proDetail1", text)}
-                  value={proDetail1}
+                  value={proDetail1 ? this.state.proDetail1 : ""}
                 />
               </View>
             </View>
@@ -511,7 +625,7 @@ export default class EditeTemplate extends Component {
                   placeholderTextColor="gray"
                   placeholder="Detail"
                   onChangeText={(text) => this.txtChange("proDetail2", text)}
-                  value={proDetail2}
+                  value={proDetail2 ? this.state.proDetail2 : ""}
                   style={{
                     borderWidth: 1,
                     borderRadius: 5,
@@ -529,7 +643,7 @@ export default class EditeTemplate extends Component {
                   placeholderTextColor="gray"
                   placeholder="Detail"
                   onChangeText={(text) => this.txtChange("proDetail3", text)}
-                  value={proDetail3}
+                  value={proDetail3 ? this.state.proDetail3 : ""}
                   style={{
                     borderWidth: 1,
                     borderRadius: 5,
@@ -552,7 +666,10 @@ export default class EditeTemplate extends Component {
                   source={
                     firstImg
                       ? {
-                          uri: `data:image/png;base64,${this.state.firstImg["data"]}`,
+                          uri:
+                            firstImg && proId
+                              ? firstImg
+                              : `data:image/png;base64,${this.state.firstImg["data"]}`,
                         }
                       : require("./../Assets/Images/blank.jpg")
                   }
@@ -570,7 +687,10 @@ export default class EditeTemplate extends Component {
                     source={
                       secImg
                         ? {
-                            uri: `data:image/png;base64,${this.state.secImg["data"]}`,
+                            uri:
+                              secImg && proId
+                                ? secImg
+                                : `data:image/png;base64,${this.state.secImg["data"]}`,
                           }
                         : require("./../Assets/Images/blank.jpg")
                     }
@@ -587,7 +707,10 @@ export default class EditeTemplate extends Component {
                     source={
                       thirdImg
                         ? {
-                            uri: `data:image/png;base64,${this.state.thirdImg["data"]}`,
+                            uri:
+                              thirdImg && proId
+                                ? thirdImg
+                                : `data:image/png;base64,${this.state.thirdImg["data"]}`,
                           }
                         : require("./../Assets/Images/blank.jpg")
                     }
@@ -604,7 +727,10 @@ export default class EditeTemplate extends Component {
                     source={
                       fourthImg
                         ? {
-                            uri: `data:image/png;base64,${this.state.fourthImg["data"]}`,
+                            uri:
+                              fourthImg && proId
+                                ? fourthImg
+                                : `data:image/png;base64,${this.state.fourthImg["data"]}`,
                           }
                         : require("./../Assets/Images/blank.jpg")
                     }
@@ -621,7 +747,10 @@ export default class EditeTemplate extends Component {
                     source={
                       fifthImg
                         ? {
-                            uri: `data:image/png;base64,${this.state.fifthImg["data"]}`,
+                            uri:
+                              fifthImg && proId
+                                ? fifthImg
+                                : `data:image/png;base64,${this.state.fifthImg["data"]}`,
                           }
                         : require("./../Assets/Images/blank.jpg")
                     }
@@ -666,7 +795,10 @@ export default class EditeTemplate extends Component {
                       source={
                         sixthImg
                           ? {
-                              uri: `data:image/png;base64,${this.state.sixthImg["data"]}`,
+                              uri:
+                                sixthImg && proId
+                                  ? sixthImg
+                                  : `data:image/png;base64,${this.state.sixthImg["data"]}`,
                             }
                           : require("./../Assets/Images/blank.jpg")
                       }
@@ -706,7 +838,10 @@ export default class EditeTemplate extends Component {
                       source={
                         sevenImg
                           ? {
-                              uri: `data:image/png;base64,${this.state.sevenImg["data"]}`,
+                              uri:
+                                sevenImg && proId
+                                  ? sevenImg
+                                  : `data:image/png;base64,${this.state.sevenImg["data"]}`,
                             }
                           : require("./../Assets/Images/blank.jpg")
                       }
@@ -746,7 +881,10 @@ export default class EditeTemplate extends Component {
                       source={
                         eightImg
                           ? {
-                              uri: `data:image/png;base64,${this.state.eightImg["data"]}`,
+                              uri:
+                                eightImg && proId
+                                  ? eightImg
+                                  : `data:image/png;base64,${this.state.eightImg["data"]}`,
                             }
                           : require("./../Assets/Images/blank.jpg")
                       }
@@ -795,7 +933,10 @@ export default class EditeTemplate extends Component {
                   source={
                     nineImg
                       ? {
-                          uri: `data:image/png;base64,${this.state.nineImg["data"]}`,
+                          uri:
+                            nineImg && proId
+                              ? nineImg
+                              : `data:image/png;base64,${this.state.nineImg["data"]}`,
                         }
                       : require("./../Assets/Images/blank.jpg")
                   }
@@ -813,7 +954,10 @@ export default class EditeTemplate extends Component {
                   source={
                     tenImg
                       ? {
-                          uri: `data:image/png;base64,${this.state.tenImg["data"]}`,
+                          uri:
+                            tenImg && proId
+                              ? tenImg
+                              : `data:image/png;base64,${this.state.tenImg["data"]}`,
                         }
                       : require("./../Assets/Images/blank.jpg")
                   }
@@ -840,7 +984,10 @@ export default class EditeTemplate extends Component {
                     source={
                       elevenImg
                         ? {
-                            uri: `data:image/png;base64,${this.state.elevenImg["data"]}`,
+                            uri:
+                              elevenImg && proId
+                                ? elevenImg
+                                : `data:image/png;base64,${this.state.elevenImg["data"]}`,
                           }
                         : require("./../Assets/Images/blank.jpg")
                     }
@@ -857,7 +1004,10 @@ export default class EditeTemplate extends Component {
                     source={
                       twelveImg
                         ? {
-                            uri: `data:image/png;base64,${this.state.twelveImg["data"]}`,
+                            uri:
+                              twelveImg && proId
+                                ? twelveImg
+                                : `data:image/png;base64,${this.state.twelveImg["data"]}`,
                           }
                         : require("./../Assets/Images/blank.jpg")
                     }
@@ -884,7 +1034,10 @@ export default class EditeTemplate extends Component {
                     source={
                       thirdteenImg
                         ? {
-                            uri: `data:image/png;base64,${this.state.thirdteenImg["data"]}`,
+                            uri:
+                              thirdteenImg && proId
+                                ? thirdteenImg
+                                : `data:image/png;base64,${this.state.thirdteenImg["data"]}`,
                           }
                         : require("./../Assets/Images/blank.jpg")
                     }
@@ -901,7 +1054,10 @@ export default class EditeTemplate extends Component {
                     source={
                       fourteenImg
                         ? {
-                            uri: `data:image/png;base64,${this.state.fourteenImg["data"]}`,
+                            uri:
+                              fourteenImg && proId
+                                ? fourteenImg
+                                : `data:image/png;base64,${this.state.fourteenImg["data"]}`,
                           }
                         : require("./../Assets/Images/blank.jpg")
                     }
@@ -920,7 +1076,10 @@ export default class EditeTemplate extends Component {
                   source={
                     fifteenImg
                       ? {
-                          uri: `data:image/png;base64,${this.state.fifteenImg["data"]}`,
+                          uri:
+                            fifteenImg && proId
+                              ? fifteenImg
+                              : `data:image/png;base64,${this.state.fifteenImg["data"]}`,
                         }
                       : require("./../Assets/Images/blank.jpg")
                   }
@@ -939,7 +1098,10 @@ export default class EditeTemplate extends Component {
                   source={
                     sixteenImg
                       ? {
-                          uri: `data:image/png;base64,${this.state.sixteenImg["data"]}`,
+                          uri:
+                            sixteenImg && proId
+                              ? sixteenImg
+                              : `data:image/png;base64,${this.state.sixteenImg["data"]}`,
                         }
                       : require("./../Assets/Images/blank.jpg")
                   }
